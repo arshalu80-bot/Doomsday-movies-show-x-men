@@ -1,0 +1,6 @@
+{
+  "name": "DOOMS",
+  "description": "Avengers: Doomsday countdown timer and Marvel cinematic universe watch tracker.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
