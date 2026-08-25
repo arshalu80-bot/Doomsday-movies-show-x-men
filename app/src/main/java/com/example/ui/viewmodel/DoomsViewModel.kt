@@ -71,12 +71,6 @@ class DoomsViewModel(application: Application) : AndroidViewModel(application) {
     private val _countdown = MutableStateFlow(CountdownTime())
     val countdown: StateFlow<CountdownTime> = _countdown
 
-    // Target Date: December 18, 2026 00:00:00 UTC
-    private val targetDateMillis: Long = Calendar.getInstance(TimeZone.getTimeZone("UTC")).apply {
-        set(2026, Calendar.DECEMBER, 18, 0, 0, 0)
-        set(Calendar.MILLISECOND, 0)
-    }.timeInMillis
-
     init {
         val db = DoomsDatabase.getDatabase(application)
         repository = MediaRepository(db.mediaDao())
@@ -97,17 +91,54 @@ class DoomsViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    // Target Date: 18 December 2026, 00:00:01 (raat ke 12:00 ke theek 1 second baad)
     private fun updateCountdown() {
-        val now = System.currentTimeMillis()
-        val diff = targetDateMillis - now
+        val now = Calendar.getInstance()
+        val target = Calendar.getInstance().apply {
+            set(2026, Calendar.DECEMBER, 18, 0, 0, 1)
+            set(Calendar.MILLISECOND, 0)
+        }
 
-        if (diff > 0) {
-            val totalDays = (diff / (1000 * 60 * 60 * 24)).toDouble()
-            val months = (totalDays / 30.4375).toInt()
-            val days = (totalDays % 30.4375).toInt()
-            val hours = ((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toInt()
-            val minutes = ((diff % (1000 * 60 * 60)) / (1000 * 60)).toInt()
-            val seconds = ((diff % (1000 * 60)) / 1000).toInt()
+        if (target.after(now)) {
+            val targetYear = target.get(Calendar.YEAR)
+            val targetMonth = target.get(Calendar.MONTH) // 0-based: December is 11
+            val targetDate = target.get(Calendar.DAY_OF_MONTH)
+            val targetHour = target.get(Calendar.HOUR_OF_DAY)
+            val targetMin = target.get(Calendar.MINUTE)
+            val targetSec = target.get(Calendar.SECOND)
+
+            val nowYear = now.get(Calendar.YEAR)
+            val nowMonth = now.get(Calendar.MONTH)
+            val nowDate = now.get(Calendar.DAY_OF_MONTH)
+            val nowHour = now.get(Calendar.HOUR_OF_DAY)
+            val nowMin = now.get(Calendar.MINUTE)
+            val nowSec = now.get(Calendar.SECOND)
+
+            val years = targetYear - nowYear
+            var months = (targetMonth - nowMonth) + (years * 12)
+            var days = targetDate - nowDate
+            var hours = targetHour - nowHour
+            var minutes = targetMin - nowMin
+            var seconds = targetSec - nowSec
+
+            if (seconds < 0) {
+                seconds += 60
+                minutes--
+            }
+            if (minutes < 0) {
+                minutes += 60
+                hours--
+            }
+            if (hours < 0) {
+                hours += 24
+                days--
+            }
+            if (days < 0) {
+                // Pichle mahine ke din calculate karna (same as JS new Date(year, month + 1, 0).getDate())
+                val prevMonthLastDay = now.getActualMaximum(Calendar.DAY_OF_MONTH)
+                days += prevMonthLastDay
+                months--
+            }
 
             _countdown.value = CountdownTime(
                 months = months,
@@ -153,7 +184,11 @@ class DoomsViewModel(application: Application) : AndroidViewModel(application) {
     ) { allItems, filters ->
         val mcuAll = allItems.filter { it.category == "mcu" }
         val xmenAll = allItems.filter { it.category == "xmen" }
-        val seriesAll = allItems.filter { it.category == "series" }
+        val seriesAll = allItems.filter { 
+            it.typeTag.contains("Series", ignoreCase = true) || 
+            it.typeTag.contains("Special", ignoreCase = true) || 
+            it.typeTag.contains("Animated", ignoreCase = true) 
+        }
 
         val mcuUnwatched = mcuAll.filter { !it.watched }
         val xmenUnwatched = xmenAll.filter { !it.watched }
@@ -207,14 +242,16 @@ class DoomsViewModel(application: Application) : AndroidViewModel(application) {
 
     fun markAllInCurrentTab(watched: Boolean) {
         val tab = _currentTab.value
-        val category = when (tab) {
-            DoomsTab.MCU -> "mcu"
-            DoomsTab.XMEN -> "xmen"
-            DoomsTab.SERIES -> "series"
-            DoomsTab.WATCHED -> return
-        }
         viewModelScope.launch {
-            repository.markAllInCategory(category, watched)
+            when (tab) {
+                DoomsTab.MCU -> repository.markAllInCategory("mcu", watched)
+                DoomsTab.XMEN -> repository.markAllInCategory("xmen", watched)
+                DoomsTab.SERIES -> {
+                    val currentSeries = uiState.value.seriesUnwatched
+                    currentSeries.forEach { repository.toggleWatched(it.copy(watched = !watched)) }
+                }
+                DoomsTab.WATCHED -> return@launch
+            }
         }
     }
 

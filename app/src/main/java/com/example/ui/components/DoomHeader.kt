@@ -103,37 +103,40 @@ fun DoomHeader(
                 label = "watchProgress"
             )
 
-            Spacer(modifier = Modifier.height(10.dp))
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "ROAD TO DOOMSDAY",
-                    style = MaterialTheme.typography.labelSmall.copy(
-                        color = AccentDoom,
-                        letterSpacing = 1.2.sp,
-                        fontWeight = FontWeight.Bold
-                    )
-                )
-                Text(
-                    text = "$totalWatched of $totalItems (${(progress * 100).toInt()}%)",
-                    style = MaterialTheme.typography.labelSmall.copy(
-                        color = TextSecondary,
-                        fontWeight = FontWeight.SemiBold
-                    )
-                )
-            }
-            Spacer(modifier = Modifier.height(4.dp))
-            LinearProgressIndicator(
-                progress = { animatedProgress },
+            Spacer(modifier = Modifier.height(12.dp))
+            
+            // Custom Gradient Progress Bar
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(5.dp)
-                    .clip(RoundedCornerShape(3.dp)),
-                color = AccentDoom,
-                trackColor = Color(0x3300FF88)
+                    .height(8.dp)
+                    .clip(RoundedCornerShape(8.dp))
+                    .background(Color(0x0DFFFFFF))
+                    .border(1.dp, Color(0x14FFFFFF), RoundedCornerShape(8.dp))
+            ) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth(animatedProgress.coerceIn(0f, 1f))
+                        .height(8.dp)
+                        .clip(RoundedCornerShape(8.dp))
+                        .background(
+                            Brush.horizontalGradient(
+                                colors = listOf(AccentDoom, Color(0xFFA855F7))
+                            )
+                        )
+                )
+            }
+
+            Spacer(modifier = Modifier.height(5.dp))
+            Text(
+                text = "$totalWatched of $totalItems (${(progress * 100).toInt()}%)",
+                style = MaterialTheme.typography.labelSmall.copy(
+                    fontSize = 12.sp,
+                    color = TextMuted,
+                    fontWeight = FontWeight.SemiBold
+                ),
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = androidx.compose.ui.text.style.TextAlign.End
             )
         }
     }
@@ -149,7 +152,7 @@ fun DoomMaskIcon(modifier: Modifier = Modifier) {
         contentAlignment = Alignment.Center
     ) {
         Image(
-            painter = painterResource(id = R.drawable.ic_doom_metallic),
+            painter = painterResource(id = R.drawable.avengers_doom_icon),
             contentDescription = "DOOMS Metallic Icon",
             contentScale = ContentScale.Fit,
             modifier = Modifier.fillMaxSize()

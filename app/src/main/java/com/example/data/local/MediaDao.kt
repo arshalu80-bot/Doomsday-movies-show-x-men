@@ -32,4 +32,7 @@ interface MediaDao {
 
     @Query("UPDATE media_items SET watched = 0, watchedTimestamp = 0")
     suspend fun resetAllWatched()
+
+    @Query("DELETE FROM media_items")
+    suspend fun deleteAll()
 }

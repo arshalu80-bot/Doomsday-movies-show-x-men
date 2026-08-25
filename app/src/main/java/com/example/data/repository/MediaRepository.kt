@@ -10,7 +10,9 @@ class MediaRepository(private val mediaDao: MediaDao) {
     val watchedItems: Flow<List<MediaItem>> = mediaDao.getWatchedItems()
 
     suspend fun seedDatabaseIfEmpty() {
-        if (mediaDao.getCount() == 0) {
+        val currentCount = mediaDao.getCount()
+        if (currentCount != 79) {
+            mediaDao.deleteAll()
             val initialItems = DefaultMediaData.generateInitialItems()
             mediaDao.insertAll(initialItems)
         }

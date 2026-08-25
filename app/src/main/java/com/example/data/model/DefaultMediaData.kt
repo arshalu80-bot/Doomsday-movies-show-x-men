@@ -68,6 +68,9 @@ object DefaultMediaData {
     fun generateInitialItems(): List<MediaItem> {
         val list = mutableListOf<MediaItem>()
         rawMCU.forEachIndexed { index, title ->
+            val isSeriesOrSpecial = title.contains("TV Series", ignoreCase = true) || 
+                                    title.contains("TV Special", ignoreCase = true) ||
+                                    title.contains("Animated", ignoreCase = true)
             list.add(
                 MediaItem(
                     id = "mcu_$index",
@@ -76,7 +79,7 @@ object DefaultMediaData {
                     originalIndex = index + 1,
                     watched = false,
                     releaseYear = extractYear(title),
-                    typeTag = extractType(title, "mcu")
+                    typeTag = if (isSeriesOrSpecial) extractType(title, "series") else "Movie"
                 )
             )
         }
@@ -90,19 +93,6 @@ object DefaultMediaData {
                     watched = false,
                     releaseYear = extractYear(title),
                     typeTag = extractType(title, "xmen")
-                )
-            )
-        }
-        rawSeries.forEachIndexed { index, title ->
-            list.add(
-                MediaItem(
-                    id = "series_$index",
-                    title = title,
-                    category = "series",
-                    originalIndex = index + 1,
-                    watched = false,
-                    releaseYear = extractYear(title),
-                    typeTag = extractType(title, "series")
                 )
             )
         }
