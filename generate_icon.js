@@ -1,0 +1,125 @@
+// Script to generate the exact Avengers Doomsday Metallic Logo SVG and Vector Drawables
+const fs = require('fs');
+
+const svgContent = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 108 108" width="108" height="108">
+  <defs>
+    <!-- Background Gradient -->
+    <radialGradient id="bgGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#021c12" stop-opacity="0.9"/>
+      <stop offset="60%" stop-color="#05070a" stop-opacity="0.98"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </radialGradient>
+
+    <!-- Metallic Steel Gradients -->
+    <linearGradient id="metalFace" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e2e8f0"/>
+      <stop offset="15%" stop-color="#94a3b8"/>
+      <stop offset="45%" stop-color="#475569"/>
+      <stop offset="70%" stop-color="#1e293b"/>
+      <stop offset="85%" stop-color="#64748b"/>
+      <stop offset="100%" stop-color="#334155"/>
+    </linearGradient>
+
+    <linearGradient id="metalRing" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#cbd5e1"/>
+      <stop offset="25%" stop-color="#64748b"/>
+      <stop offset="55%" stop-color="#1e293b"/>
+      <stop offset="80%" stop-color="#94a3b8"/>
+      <stop offset="100%" stop-color="#334155"/>
+    </linearGradient>
+
+    <linearGradient id="metalBevelDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="50%" stop-color="#020617"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+
+    <!-- Glowing Green Bevel Edge -->
+    <linearGradient id="greenRim" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00ff88"/>
+      <stop offset="40%" stop-color="#10b981"/>
+      <stop offset="70%" stop-color="#047857"/>
+      <stop offset="100%" stop-color="#00ff88"/>
+    </linearGradient>
+
+    <filter id="greenGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="1.5" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <rect width="108" height="108" fill="url(#bgGlow)"/>
+
+  <!-- Glowing Green Outer Aura Rim for the Ring -->
+  <path d="M 54 18 A 36 36 0 1 0 85 68 L 81 64 A 31 31 0 1 1 54 23 Z"
+        fill="none" stroke="url(#greenRim)" stroke-width="2.5" opacity="0.9" filter="url(#greenGlow)"/>
+
+  <!-- Outer Metallic Ring Body (Broken by arrow at right) -->
+  <path d="M 54 18 A 36 36 0 1 0 85 68 L 77 64 A 28 28 0 1 1 54 26 Z"
+        fill="url(#metalRing)" stroke="#0f172a" stroke-width="1"/>
+
+  <!-- Ring Inner Bevel Highlight -->
+  <path d="M 54 22 A 32 32 0 1 0 81 66"
+        fill="none" stroke="#94a3b8" stroke-width="1" opacity="0.6"/>
+
+  <!-- AVENGERS 'A' - Shadow / 3D Extrusion Layer -->
+  <g transform="translate(1, 1.5)">
+    <!-- Left Leg Outer Bevel -->
+    <path d="M 58 10 L 69 10 L 69 20 L 59 44 L 21 89 L 17 89 Z" fill="#000000" opacity="0.8"/>
+  </g>
+
+  <!-- Left Leg Green Rim Accent (Outer Left Edge) -->
+  <path d="M 58 10 L 17 89 L 22 91 L 61 11 Z" fill="url(#greenRim)" filter="url(#greenGlow)"/>
+
+  <!-- Top Cap Green Edge -->
+  <path d="M 57 9 L 70 9 L 70 12 L 57 12 Z" fill="#00ff88" filter="url(#greenGlow)"/>
+
+  <!-- MAIN 'A' BODY -->
+  <!-- Left Leg Base Metal -->
+  <path d="M 58 10 L 69 10 L 69 20 L 48 57 L 58 57 L 70 57 L 58 72 L 58 75 L 36 75 L 29 89 L 18 89 Z"
+        fill="url(#metalFace)" stroke="#0f172a" stroke-width="0.8"/>
+
+  <!-- Left Leg 3D Bevel Facet (Upper Ridge) -->
+  <path d="M 58 10 L 63 10 L 25 89 L 18 89 Z"
+        fill="url(#metalFace)" opacity="0.9"/>
+
+  <!-- Inner Triangular Cutout with Bevel -->
+  <path d="M 54 30 L 47 48 L 61 48 Z" fill="#05070a" stroke="url(#greenRim)" stroke-width="1.2"/>
+  <path d="M 54 33 L 49 46 L 59 46 Z" fill="#020617"/>
+
+  <!-- Right Vertical Spine / Arrow Base -->
+  <path d="M 58 20 L 69 20 L 69 57 L 58 57 Z"
+        fill="url(#metalFace)" stroke="#0f172a" stroke-width="0.8"/>
+
+  <!-- ARROWHEAD (Cutting through circle to the right) -->
+  <!-- Arrow Green Rim Glow (Upper & Lower Edges) -->
+  <path d="M 58 48 L 71 58 L 58 68"
+        fill="none" stroke="url(#greenRim)" stroke-width="2.5" stroke-linejoin="miter" filter="url(#greenGlow)"/>
+
+  <!-- Arrow Metallic Body -->
+  <path d="M 58 49 L 70 58 L 58 67 L 58 62 L 64 58 L 58 54 Z"
+        fill="url(#metalFace)" stroke="#ffffff" stroke-width="0.8"/>
+
+  <!-- Arrow Upper Facet (Bright Specular) -->
+  <path d="M 58 49 L 70 58 L 64 58 L 58 54 Z" fill="#e2e8f0" opacity="0.85"/>
+
+  <!-- Arrow Lower Facet (Dark Metal) -->
+  <path d="M 58 67 L 70 58 L 64 58 L 58 62 Z" fill="#1e293b"/>
+
+  <!-- Right Vertical Leg Bottom Section -->
+  <path d="M 58 67 L 69 58 L 69 75 L 58 75 Z"
+        fill="url(#metalRing)" stroke="#0f172a" stroke-width="0.8"/>
+
+  <!-- Bottom Horizontal Right Step Bar -->
+  <path d="M 58 72 L 70 72 L 70 75 L 58 75 Z" fill="#475569" stroke="url(#greenRim)" stroke-width="0.8"/>
+
+  <!-- Subtle Metallic Scratches Texture Details -->
+  <line x1="28" y1="75" x2="35" y2="70" stroke="#ffffff" stroke-width="0.4" opacity="0.4"/>
+  <line x1="32" y1="65" x2="42" y2="58" stroke="#ffffff" stroke-width="0.3" opacity="0.3"/>
+  <line x1="56" y1="25" x2="62" y2="28" stroke="#ffffff" stroke-width="0.4" opacity="0.4"/>
+  <line x1="24" y1="42" x2="30" y2="48" stroke="#00ff88" stroke-width="0.5" opacity="0.5"/>
+  <line x1="45" y1="84" x2="52" y2="82" stroke="#ffffff" stroke-width="0.4" opacity="0.3"/>
+</svg>`;
+
+fs.writeFileSync('avengers_doomsday_icon.svg', svgContent);
+console.log('Successfully generated avengers_doomsday_icon.svg');

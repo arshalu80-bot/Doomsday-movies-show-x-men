@@ -3,7 +3,7 @@ package com.example.ui.components
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -27,17 +28,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.R
 import com.example.ui.theme.AccentDoom
 import com.example.ui.theme.AccentDoomDark
 import com.example.ui.theme.AccentSeries
@@ -60,22 +61,29 @@ fun DoomHeader(
             .padding(horizontal = 16.dp, vertical = 8.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // Brand row: Doctor Doom Glowing Icon + DOOMS Title
+        // Brand row: Exact Original Metallic Avengers Doom Icon + Gradient DOOMS Title
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
             modifier = Modifier.padding(bottom = 12.dp)
         ) {
-            DoomMaskIcon(modifier = Modifier.size(44.dp))
+            DoomMaskIcon(modifier = Modifier.size(46.dp))
             Spacer(modifier = Modifier.width(12.dp))
             Text(
                 text = "DOOMS",
-                style = MaterialTheme.typography.headlineLarge.copy(
+                style = TextStyle(
+                    fontFamily = FontFamily.Default,
                     fontWeight = FontWeight.Black,
-                    letterSpacing = 4.sp,
-                    fontSize = 28.sp
+                    letterSpacing = 3.sp,
+                    fontSize = 26.sp,
+                    brush = Brush.horizontalGradient(
+                        colors = listOf(
+                            Color(0xFFFFFFFF),
+                            Color(0xFF00FF88),
+                            Color(0xFF00D2FF)
+                        )
+                    )
                 ),
-                color = AccentDoom,
                 modifier = Modifier.testTag("app_title")
             )
         }
@@ -135,55 +143,17 @@ fun DoomHeader(
 fun DoomMaskIcon(modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
-            .shadow(12.dp, shape = CircleShape, spotColor = AccentDoom)
+            .shadow(16.dp, shape = CircleShape, spotColor = AccentDoom.copy(alpha = 0.6f))
             .clip(CircleShape)
-            .background(
-                Brush.radialGradient(
-                    colors = listOf(AccentDoom.copy(alpha = 0.85f), Color(0xFF05070A)),
-                    radius = 80f
-                )
-            )
-            .border(2.dp, AccentDoom, CircleShape),
+            .background(Color.Black),
         contentAlignment = Alignment.Center
     ) {
-        Canvas(modifier = Modifier.size(32.dp)) {
-            val w = size.width
-            val h = size.height
-
-            // Outer mask shape
-            val maskPath = Path().apply {
-                moveTo(w * 0.5f, h * 0.12f)
-                lineTo(w * 0.78f, h * 0.82f)
-                lineTo(w * 0.62f, h * 0.82f)
-                lineTo(w * 0.55f, h * 0.64f)
-                lineTo(w * 0.45f, h * 0.64f)
-                lineTo(w * 0.38f, h * 0.82f)
-                lineTo(w * 0.22f, h * 0.82f)
-                close()
-            }
-            drawPath(maskPath, color = Color(0xFF111827))
-            drawPath(maskPath, color = AccentDoom, style = Stroke(width = 2.5f))
-
-            // Eyes / forehead
-            val eyePath = Path().apply {
-                moveTo(w * 0.5f, h * 0.32f)
-                lineTo(w * 0.43f, h * 0.54f)
-                lineTo(w * 0.57f, h * 0.54f)
-                close()
-            }
-            drawPath(eyePath, color = Color(0xFF111827))
-            drawPath(eyePath, color = AccentDoom, style = Stroke(width = 2f))
-
-            // Mouth plate
-            val platePath = Path().apply {
-                moveTo(w * 0.38f, h * 0.55f)
-                lineTo(w * 0.74f, h * 0.55f)
-                lineTo(w * 0.70f, h * 0.64f)
-                lineTo(w * 0.34f, h * 0.64f)
-                close()
-            }
-            drawPath(platePath, color = AccentDoom)
-        }
+        Image(
+            painter = painterResource(id = R.drawable.ic_doom_metallic),
+            contentDescription = "DOOMS Metallic Icon",
+            contentScale = ContentScale.Fit,
+            modifier = Modifier.fillMaxSize()
+        )
     }
 }
 
