@@ -127,10 +127,10 @@ class DoomsViewModel(application: Application) : AndroidViewModel(application) {
      */
     fun triggerTestUpdate() {
         val testUpdate = UpdateInfo(
-            versionCode = 2,
-            versionName = "1.1.0",
-            apkUrl = "https://github.com/arshali1854/dooms-releases/releases/download/v1.1.0/app-debug.apk",
-            releaseNotes = "• Complete 82 items MCU & X-Men timeline\n• Added in-app auto updates & download manager\n• Performance optimizations and bug fixes",
+            versionCode = 3,
+            versionName = "2.2.0",
+            apkUrl = "https://github.com/arshali1854/dooms-releases/releases/download/v2.2.0/app-debug.apk",
+            releaseNotes = "• Title updated to AVENGERS: DOOMSDAY with sleek gradient\n• Complete 82-item MCU & X-Men chronological tracker\n• Fast background auto-updates and DownloadManager integration\n• Performance optimizations",
             mandatory = false,
             fileSizeMb = "22 MB"
         )

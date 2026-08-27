@@ -56,21 +56,21 @@ fun DoomHeader(
             .padding(horizontal = 16.dp, vertical = 8.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // Brand row: Exact Original Metallic Avengers Doom Icon + Gradient DOOMS Title
+        // Brand row: Exact Original Metallic Avengers Doom Icon + Gradient AVENGERS: DOOMSDAY Title
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
             modifier = Modifier.padding(bottom = 12.dp)
         ) {
-            DoomMaskIcon(modifier = Modifier.size(46.dp))
-            Spacer(modifier = Modifier.width(12.dp))
+            DoomMaskIcon(modifier = Modifier.size(42.dp))
+            Spacer(modifier = Modifier.width(10.dp))
             Text(
-                text = "DOOMS",
+                text = "AVENGERS: DOOMSDAY",
                 style = TextStyle(
                     fontFamily = FontFamily.Default,
                     fontWeight = FontWeight.Black,
-                    letterSpacing = 3.sp,
-                    fontSize = 26.sp,
+                    letterSpacing = 1.5.sp,
+                    fontSize = 20.sp,
                     brush = Brush.horizontalGradient(
                         colors = listOf(
                             Color(0xFFFFFFFF),
@@ -79,6 +79,7 @@ fun DoomHeader(
                         )
                     )
                 ),
+                maxLines = 1,
                 modifier = Modifier.testTag("app_title")
             )
         }

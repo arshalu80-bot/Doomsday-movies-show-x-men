@@ -1,0 +1,8 @@
+{
+  "versionCode": 2,
+  "versionName": "2.1.0",
+  "apkUrl": "https://github.com/arshali1854/dooms-releases/releases/download/v2.1.0/app-debug.apk",
+  "releaseNotes": "• Header title updated to AVENGERS: DOOMSDAY with custom neon gradient\n• In-app auto updates with background DownloadManager\n• Complete 82 items MCU Timeline and X-Men Universe tracker\n• Watch progress persistence & instant filter tabs",
+  "mandatory": false,
+  "fileSizeMb": "22 MB"
+}
