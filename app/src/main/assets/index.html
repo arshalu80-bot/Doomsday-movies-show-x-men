@@ -2,27 +2,30 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>AVENGERS: DOOMSDAY</title>
+  
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23000000' stroke='%2300ff88' stroke-width='4'/%3E%3Ctext x='50' y='72' font-family='sans-serif' font-size='68' font-weight='900' fill='%2300ff88' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23000000' stroke='%2300ff88' stroke-width='4'/%3E%3Ctext x='50' y='72' font-family='sans-serif' font-size='68' font-weight='900' fill='%2300ff88' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E">
+
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="theme-color" content="#05070a">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@600;800;900&display=swap" rel="stylesheet">
+
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg-dark: #05070a;
-      --bg-card: rgba(13, 17, 23, 0.85);
-      --bg-card-hover: rgba(22, 27, 34, 0.95);
+      --card-bg: rgba(14, 18, 28, 0.94);
+      --card-border: rgba(255, 255, 255, 0.08);
       --accent-doom: #00ff88;
       --accent-mcu: #ff3344;
       --accent-watched: #a855f7;
       --accent-xmen: #f5b301;
       --accent-spidey: #00d2ff;
-      --border-color: rgba(255, 255, 255, 0.08);
       --text-main: #f3f4f6;
       --text-muted: #9ca3af;
-      --safe-bottom: env(safe-area-inset-bottom, 16px);
-      --safe-top: env(safe-area-inset-top, 16px);
     }
 
     * {
@@ -30,1165 +33,962 @@
       margin: 0;
       padding: 0;
       -webkit-tap-highlight-color: transparent;
-      user-select: none;
     }
 
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background-color: var(--bg-dark);
-      color: var(--text-main);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      overflow-x: hidden;
-      padding-top: var(--safe-top);
-      padding-bottom: calc(76px + var(--safe-bottom));
       background-image: 
-        radial-gradient(circle at 50% 0%, rgba(0, 255, 136, 0.08) 0%, transparent 50%),
-        radial-gradient(circle at 100% 100%, rgba(255, 51, 68, 0.05) 0%, transparent 40%),
-        radial-gradient(circle at 0% 100%, rgba(0, 210, 255, 0.05) 0%, transparent 40%);
-      background-attachment: fixed;
+        radial-gradient(circle at 10% 10%, rgba(0, 255, 136, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 90% 90%, rgba(255, 51, 68, 0.06) 0%, transparent 40%);
+      color: var(--text-main);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      padding: 15px 12px 145px 12px;
     }
 
-    /* APP HEADER */
-    .app-header {
-      padding: 16px 16px 12px 16px;
+    .container {
+      max-width: 650px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .header {
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid var(--border-color);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      background: rgba(5, 7, 10, 0.8);
-      position: sticky;
-      top: 0;
-      z-index: 40;
+      margin-bottom: 12px;
     }
 
     .brand-box {
       display: flex;
       align-items: center;
       gap: 10px;
+      margin-bottom: 8px;
     }
 
-    .brand-icon {
-      width: 34px;
-      height: 34px;
-      border-radius: 9px;
-      background: linear-gradient(135deg, rgba(0, 255, 136, 0.2), rgba(0, 210, 255, 0.2));
-      border: 1.5px solid rgba(0, 255, 136, 0.6);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 0 14px rgba(0, 255, 136, 0.3);
+    .doom-icon-svg {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
     }
 
-    .brand-icon svg {
-      width: 20px;
-      height: 20px;
-      fill: #00ff88;
-    }
-
-    .app-title {
+    .title {
       font-family: 'Orbitron', sans-serif;
-      font-size: 16px;
+      font-size: 1.25rem;
       font-weight: 900;
-      letter-spacing: 1.5px;
-      background: linear-gradient(90deg, #00ff88 0%, #00d2ff 60%, #a855f7 100%);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      background: linear-gradient(90deg, #ffffff, #00ff88, #00d2ff);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      text-transform: uppercase;
     }
 
-    .header-actions {
+    .countdown-box {
+      width: 100%;
       display: flex;
+      justify-content: space-around;
+      background: rgba(11, 15, 24, 0.95);
+      border: 1px solid rgba(0, 255, 136, 0.3);
+      padding: 8px 6px;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7);
+    }
+
+    .timer-unit {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .timer-value {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--accent-doom);
+      line-height: 1.1;
+    }
+
+    .timer-label {
+      font-size: 0.52rem;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-top: 2px;
+    }
+
+    .progress-bar-container {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      height: 6px;
+      margin-top: 10px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent-doom), var(--accent-watched));
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    .progress-text {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-top: 4px;
+      text-align: right;
+    }
+
+    /* SEARCH & ACTION BUTTONS HEADER */
+    .controls-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 10px;
+      margin-bottom: 8px;
+      position: relative;
+    }
+
+    .search-box {
+      flex-grow: 1;
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .search-box input {
+      width: 100%;
+      background: rgba(14, 18, 28, 0.9);
+      border: 1px solid var(--card-border);
+      padding: 10px 12px 10px 36px;
+      border-radius: 12px;
+      color: #fff;
+      font-size: 0.82rem;
+      outline: none;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 12px;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    .sparkle-btn, .dots-btn {
+      width: 40px;
+      height: 40px;
+      background: rgba(14, 18, 28, 0.95);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      color: #fff;
+      display: grid;
+      place-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .sparkle-btn {
+      background: rgba(0, 255, 136, 0.12);
+      border-color: rgba(0, 255, 136, 0.3);
+      color: var(--accent-doom);
+    }
+
+    /* THREE-DOT MENU DROPDOWN */
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      top: 50px;
+      right: 0;
+      width: 225px;
+      background: #0d121d;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 14px;
+      padding: 8px;
+      box-shadow: 0 12px 35px rgba(0,0,0,0.9);
+      z-index: 999999;
+    }
+
+    .dropdown-menu.show {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .menu-item {
+      background: transparent;
+      border: none;
+      color: var(--text-main);
+      padding: 10px 12px;
+      text-align: left;
+      font-size: 0.78rem;
+      font-weight: 500;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .menu-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .menu-item.green { color: var(--accent-doom); }
+    .menu-item.cyan { color: var(--accent-spidey); }
+    .menu-item.red { color: #ff4d4d; }
+
+    /* POPUP MODALS */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(5px);
+      z-index: 9999999;
+      place-content: center;
+      padding: 16px;
+    }
+
+    .modal-overlay.active {
+      display: grid;
+    }
+
+    .modal-card {
+      background: #0f1624;
+      border: 1px solid rgba(0, 255, 136, 0.4);
+      border-radius: 18px;
+      padding: 20px;
+      max-width: 380px;
+      width: 100%;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.95);
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .modal-header h3 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1rem;
+      color: #fff;
+    }
+
+    .modal-body {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+      margin-bottom: 16px;
+    }
+
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .modal-btn {
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+    }
+
+    .modal-btn.primary {
+      background: var(--accent-doom);
+      color: #000;
+    }
+
+    .modal-btn.secondary {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+
+    /* TAB CONTENT */
+    .tab-content {
+      display: none;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      margin-top: 6px;
+    }
+
+    .tab-content.active {
+      display: flex;
+      flex-direction: column;
+      height: calc(100vh - 315px);
+    }
+
+    .bar-header {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--card-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .bar-header h2 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .count-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    #tab-mcu .bar-header { border-top: 4px solid var(--accent-mcu); }
+    #tab-mcu h2 { color: var(--accent-mcu); }
+
+    #tab-watched .bar-header { border-top: 4px solid var(--accent-watched); }
+    #tab-watched h2 { color: var(--accent-watched); }
+
+    #tab-xmen .bar-header { border-top: 4px solid var(--accent-xmen); }
+    #tab-xmen h2 { color: var(--accent-xmen); }
+
+    #tab-spidey .bar-header { border-top: 4px solid var(--accent-spidey); }
+    #tab-spidey h2 { color: var(--accent-spidey); }
+
+    .list-wrapper {
+      padding: 10px;
+      overflow-y: auto;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
       gap: 8px;
     }
 
-    .icon-btn {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid var(--border-color);
-      color: var(--text-main);
-      width: 36px;
-      height: 36px;
-      border-radius: 9px;
+    .list-wrapper::-webkit-scrollbar { width: 4px; }
+    .list-wrapper::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.18);
+      border-radius: 2px;
+    }
+
+    .item-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 12px;
+      border-radius: 12px;
       display: flex;
       align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .icon-btn:active {
-      transform: scale(0.92);
-      background: rgba(0, 255, 136, 0.15);
-      border-color: var(--accent-doom);
-    }
-
-    .icon-btn svg {
-      width: 18px;
-      height: 18px;
-      fill: currentColor;
-    }
-
-    /* COUNTDOWN & OVERALL PROGRESS */
-    .hero-panel {
-      padding: 14px 16px;
-      display: flex;
-      flex-direction: column;
       gap: 12px;
+      cursor: pointer;
     }
 
-    .countdown-card {
-      background: linear-gradient(135deg, rgba(13, 17, 23, 0.9), rgba(18, 24, 33, 0.9));
-      border: 1px solid rgba(0, 255, 136, 0.25);
-      border-radius: 14px;
-      padding: 12px 14px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    .item-checkbox {
+      appearance: none;
+      width: 22px;
+      height: 22px;
+      border: 2px solid var(--text-muted);
+      border-radius: 6px;
+      outline: none;
+      cursor: pointer;
+      display: grid;
+      place-content: center;
+      flex-shrink: 0;
     }
 
-    .countdown-label-group {
+    .item-checkbox:checked {
+      background: var(--accent-watched);
+      border-color: var(--accent-watched);
+    }
+
+    .item-checkbox:checked::before {
+      content: '✓';
+      color: #fff;
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .item-index-badge {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 3px 7px;
+      border-radius: 6px;
+      min-width: 36px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .item-info {
+      flex-grow: 1;
       display: flex;
       flex-direction: column;
       gap: 2px;
     }
 
-    .countdown-tag {
-      font-size: 10px;
-      font-weight: 700;
-      color: var(--accent-doom);
-      letter-spacing: 1px;
-      text-transform: uppercase;
-    }
-
-    .countdown-target {
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-
-    .countdown-grid {
-      display: flex;
-      gap: 6px;
-    }
-
-    .timer-unit {
-      background: rgba(0, 0, 0, 0.4);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 7px;
-      padding: 4px 6px;
-      min-width: 36px;
-      text-align: center;
-    }
-
-    .timer-val {
-      font-family: 'Orbitron', monospace;
-      font-size: 13px;
-      font-weight: 800;
-      color: #fff;
-    }
-
-    .timer-sub {
-      font-size: 8px;
-      color: var(--text-muted);
-      text-transform: uppercase;
-    }
-
-    /* PROGRESS BAR */
-    .progress-section {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      padding: 10px 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .progress-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 11px;
+    .item-title {
+      font-size: 0.9rem;
       font-weight: 600;
+      line-height: 1.25;
+      color: #ffffff;
+    }
+
+    .item-meta {
+      font-size: 0.7rem;
       color: var(--text-muted);
-    }
-
-    .progress-header span.val {
-      color: var(--accent-doom);
-      font-weight: 700;
-    }
-
-    .progress-track {
-      height: 7px;
-      background: rgba(255, 255, 255, 0.06);
-      border-radius: 4px;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .progress-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--accent-doom), var(--accent-spidey));
-      border-radius: 4px;
-      width: 0%;
-      transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
-    }
-
-    /* SEARCH & FILTER BAR */
-    .search-box {
-      padding: 0 16px 8px 16px;
-    }
-
-    .search-input-wrap {
-      position: relative;
-      display: flex;
-      align-items: center;
-    }
-
-    .search-input-wrap svg.search-ico {
-      position: absolute;
-      left: 12px;
-      width: 16px;
-      height: 16px;
-      fill: var(--text-muted);
-      pointer-events: none;
-    }
-
-    .search-input {
-      width: 100%;
-      background: rgba(13, 17, 23, 0.7);
-      border: 1px solid var(--border-color);
-      border-radius: 10px;
-      padding: 9px 36px 9px 36px;
-      color: var(--text-main);
-      font-size: 13px;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-
-    .search-input:focus {
-      border-color: var(--accent-doom);
-      box-shadow: 0 0 0 2px rgba(0, 255, 136, 0.15);
-    }
-
-    .search-clear {
-      position: absolute;
-      right: 10px;
-      background: transparent;
-      border: none;
-      color: var(--text-muted);
-      cursor: pointer;
-      display: none;
-    }
-
-    /* SUB-FILTER CHIPS */
-    .filter-chips {
-      display: flex;
-      gap: 6px;
-      padding: 0 16px 10px 16px;
-      overflow-x: auto;
-      scrollbar-width: none;
-    }
-
-    .filter-chips::-webkit-scrollbar {
-      display: none;
-    }
-
-    .chip {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--border-color);
-      color: var(--text-muted);
-      padding: 5px 12px;
-      border-radius: 20px;
-      font-size: 11px;
-      font-weight: 600;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: all 0.2s;
-    }
-
-    .chip.active {
-      background: rgba(0, 255, 136, 0.15);
-      border-color: var(--accent-doom);
-      color: var(--accent-doom);
-    }
-
-    /* TAB HEADER BAR */
-    .tab-header-banner {
-      margin: 0 16px 10px 16px;
-      padding: 10px 14px;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border: 1px solid;
-    }
-
-    .tab-header-banner.mcu {
-      background: rgba(255, 51, 68, 0.08);
-      border-color: rgba(255, 51, 68, 0.3);
-      color: var(--accent-mcu);
-    }
-
-    .tab-header-banner.watched {
-      background: rgba(168, 85, 247, 0.08);
-      border-color: rgba(168, 85, 247, 0.3);
-      color: var(--accent-watched);
-    }
-
-    .tab-header-banner.xmen {
-      background: rgba(245, 179, 1, 0.08);
-      border-color: rgba(245, 179, 1, 0.3);
-      color: var(--accent-xmen);
-    }
-
-    .tab-header-banner.spidey {
-      background: rgba(0, 210, 255, 0.08);
-      border-color: rgba(0, 210, 255, 0.3);
-      color: var(--accent-spidey);
-    }
-
-    .tab-banner-title {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 12px;
-      font-weight: 800;
-      letter-spacing: 0.5px;
-    }
-
-    .tab-banner-pill {
-      font-size: 10px;
-      font-weight: 700;
-      padding: 3px 8px;
-      border-radius: 12px;
-      background: rgba(0, 0, 0, 0.3);
-      border: 1px solid currentColor;
-    }
-
-    /* LIST CONTAINER */
-    .media-list {
-      padding: 0 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      flex: 1;
-    }
-
-    .media-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      padding: 10px 12px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .media-card::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 3px;
-      background: transparent;
-      transition: background 0.2s;
-    }
-
-    .media-card.mcu::before { background: var(--accent-mcu); }
-    .media-card.xmen::before { background: var(--accent-xmen); }
-    .media-card.spidey::before { background: var(--accent-spidey); }
-    .media-card.watched::before { background: var(--accent-watched); }
-
-    .media-card:active {
-      transform: scale(0.985);
-      background: var(--bg-card-hover);
-    }
-
-    .card-checkbox {
-      width: 24px;
-      height: 24px;
-      border-radius: 7px;
-      border: 2px solid rgba(255, 255, 255, 0.25);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      transition: all 0.2s;
-      background: rgba(0, 0, 0, 0.2);
-    }
-
-    .media-card.watched .card-checkbox {
-      background: var(--accent-watched);
-      border-color: var(--accent-watched);
-      box-shadow: 0 0 10px rgba(168, 85, 247, 0.4);
-    }
-
-    .card-checkbox svg {
-      width: 14px;
-      height: 14px;
-      fill: #fff;
-      display: none;
-    }
-
-    .media-card.watched .card-checkbox svg {
-      display: block;
-    }
-
-    .card-content {
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-      flex: 1;
-      min-width: 0;
-    }
-
-    .card-title {
-      font-size: 13.5px;
-      font-weight: 600;
-      color: var(--text-main);
-      line-height: 1.3;
-      word-break: break-word;
-      transition: color 0.2s;
-    }
-
-    .media-card.watched .card-title {
-      color: var(--text-muted);
-      text-decoration: line-through rgba(168, 85, 247, 0.6);
-    }
-
-    .card-meta-row {
       display: flex;
       align-items: center;
       gap: 6px;
-      flex-wrap: wrap;
-    }
-
-    .card-index {
-      font-family: 'Orbitron', monospace;
-      font-size: 10px;
-      font-weight: 700;
-      color: var(--accent-doom);
     }
 
     .meta-tag {
-      font-size: 9.5px;
-      font-weight: 700;
-      padding: 1.5px 6px;
+      padding: 2px 6px;
       border-radius: 4px;
+      background: rgba(255, 255, 255, 0.08);
+      font-size: 0.62rem;
+      font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: 0.4px;
     }
 
-    .tag-movie { background: rgba(0, 210, 255, 0.15); color: #00d2ff; }
-    .tag-show { background: rgba(255, 170, 0, 0.15); color: #ffaa00; }
-    .tag-category { background: rgba(255, 255, 255, 0.08); color: var(--text-muted); }
-
-    /* EMPTY STATE */
-    .empty-state {
-      padding: 40px 20px;
-      text-align: center;
+    .empty-placeholder {
       display: flex;
-      flex-direction: column;
+      height: 100%;
       align-items: center;
-      gap: 10px;
+      justify-content: center;
+      text-align: center;
       color: var(--text-muted);
+      font-size: 0.82rem;
+      padding: 20px;
     }
 
-    .empty-state svg {
-      width: 48px;
-      height: 48px;
-      fill: rgba(255, 255, 255, 0.2);
-    }
-
-    /* 4-BAR BOTTOM NAVIGATION */
-    .bottom-nav {
+    .bottom-guard {
       position: fixed;
       bottom: 0;
       left: 0;
-      right: 0;
-      background: rgba(5, 7, 10, 0.95);
-      border-top: 1px solid var(--border-color);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      padding: 8px 6px calc(8px + var(--safe-bottom)) 6px;
-      gap: 4px;
-      z-index: 50;
+      width: 100%;
+      background: #000000;
+      padding-top: 10px;
+      padding-bottom: max(20px, env(safe-area-inset-bottom, 20px));
+      z-index: 99999;
+      box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.95);
+      display: flex;
+      justify-content: center;
+    }
+
+    .bottom-nav {
+      width: calc(100% - 16px);
+      max-width: 600px;
+      background: rgba(16, 21, 32, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 16px;
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 4px;
     }
 
     .nav-btn {
+      flex: 1;
       background: transparent;
-      border: 1px solid transparent;
-      border-radius: 10px;
-      padding: 6px 2px;
+      border: none;
+      color: var(--text-muted);
+      padding: 8px 2px;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 600;
+      cursor: pointer;
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 3px;
-      color: var(--text-muted);
-      cursor: pointer;
-      position: relative;
-      transition: all 0.2s;
+    }
+
+    .nav-btn .badge-pill {
+      font-size: 0.62rem;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 2px 6px;
+      border-radius: 10px;
     }
 
     .nav-btn.active {
-      background: rgba(255, 255, 255, 0.05);
-    }
-
-    .nav-btn.active.mcu { color: var(--accent-mcu); border-color: rgba(255, 51, 68, 0.3); }
-    .nav-btn.active.watched { color: var(--accent-watched); border-color: rgba(168, 85, 247, 0.3); }
-    .nav-btn.active.xmen { color: var(--accent-xmen); border-color: rgba(245, 179, 1, 0.3); }
-    .nav-btn.active.spidey { color: var(--accent-spidey); border-color: rgba(0, 210, 255, 0.3); }
-
-    .nav-label {
-      font-size: 10px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.3px;
-      text-align: center;
-      line-height: 1.1;
-    }
-
-    .nav-badge {
-      font-size: 9px;
-      font-weight: 800;
-      padding: 1px 6px;
-      border-radius: 8px;
-      background: rgba(255, 255, 255, 0.08);
       color: #fff;
+      background: rgba(255, 255, 255, 0.12);
     }
 
-    .nav-btn.active.mcu .nav-badge { background: var(--accent-mcu); color: #fff; }
-    .nav-btn.active.watched .nav-badge { background: var(--accent-watched); color: #fff; }
-    .nav-btn.active.xmen .nav-badge { background: var(--accent-xmen); color: #000; }
-    .nav-btn.active.spidey .nav-badge { background: var(--accent-spidey); color: #000; }
-
-    /* MODAL DIALOG */
-    .modal-backdrop {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.75);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      z-index: 100;
-    }
-
-    .modal-backdrop.show {
-      display: flex;
-    }
-
-    .modal-box {
-      background: #0d1117;
-      border: 1px solid rgba(0, 255, 136, 0.3);
-      border-radius: 16px;
-      padding: 20px;
-      max-width: 360px;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
-      animation: popIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    @keyframes popIn {
-      from { transform: scale(0.9); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
-    }
-
-    .modal-title {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 15px;
-      font-weight: 800;
-      color: var(--accent-doom);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .modal-body {
-      font-size: 13px;
-      color: var(--text-muted);
-      line-height: 1.4;
-    }
-
-    .modal-btn-row {
-      display: flex;
-      justify-content: flex-end;
-      gap: 10px;
-      margin-top: 6px;
-    }
-
-    .btn-secondary {
-      background: rgba(255, 255, 255, 0.08);
-      border: none;
-      color: var(--text-main);
-      padding: 8px 14px;
-      border-radius: 8px;
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    .btn-primary {
-      background: var(--accent-doom);
-      border: none;
-      color: #05070a;
-      padding: 8px 16px;
-      border-radius: 8px;
-      font-size: 12px;
-      font-weight: 800;
-      cursor: pointer;
-    }
+    .nav-btn[data-tab="mcu"].active { color: var(--accent-mcu); }
+    .nav-btn[data-tab="watched"].active { color: var(--accent-watched); }
+    .nav-btn[data-tab="xmen"].active { color: var(--accent-xmen); }
+    .nav-btn[data-tab="spidey"].active { color: var(--accent-spidey); }
   </style>
 </head>
 <body>
 
-  <!-- APP HEADER -->
-  <header class="app-header">
-    <div class="brand-box">
-      <div class="brand-icon">
-        <svg viewBox="0 0 24 24">
-          <path d="M12 2L2 22h4.5l2.1-4.5h6.8l2.1 4.5H22L12 2zm0 6.5l2.4 5h-4.8l2.4-5z"/>
+  <div class="container">
+    <header class="header">
+      <div class="brand-box">
+        <svg class="doom-icon-svg" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="48" fill="#000000" stroke="#00ff88" stroke-width="4"/>
+          <text x="50" y="72" font-family="sans-serif" font-size="68" font-weight="900" fill="#00ff88" text-anchor="middle">A</text>
         </svg>
+        <h1 class="title">AVENGERS: DOOMSDAY</h1>
       </div>
-      <h1 class="app-title">AVENGERS: DOOMSDAY</h1>
+      
+      <div class="countdown-box">
+        <div class="timer-unit">
+          <span class="timer-value" id="months">00</span>
+          <span class="timer-label">Months</span>
+        </div>
+        <div class="timer-unit">
+          <span class="timer-value" id="days">00</span>
+          <span class="timer-label">Days</span>
+        </div>
+        <div class="timer-unit">
+          <span class="timer-value" id="hours">00</span>
+          <span class="timer-label">Hours</span>
+        </div>
+        <div class="timer-unit">
+          <span class="timer-value" id="minutes">00</span>
+          <span class="timer-label">Mins</span>
+        </div>
+        <div class="timer-unit">
+          <span class="timer-value" id="seconds">00</span>
+          <span class="timer-label">Secs</span>
+        </div>
+      </div>
+
+      <div class="progress-bar-container">
+        <div class="progress-bar-fill" id="progress-fill"></div>
+      </div>
+      <div class="progress-text" id="progress-stats">0 of 87 (0%)</div>
+    </header>
+
+    <!-- SEARCH BAR + GREEN SPARKLE BUTTON + THREE DOT MENU BUTTON -->
+    <div class="controls-row">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="search-input" placeholder="Search movies, series..." oninput="handleSearch(this.value)">
+      </div>
+
+      <!-- GREEN MAGIC SPARKLE BUTTON -->
+      <button class="sparkle-btn" title="Quick Insights" onclick="openMagicInsight()">✨</button>
+
+      <!-- THREE DOTS BUTTON -->
+      <button class="dots-btn" onclick="toggleMenu()">⋮</button>
+
+      <!-- THREE DOTS DROPDOWN MENU -->
+      <div class="dropdown-menu" id="dropdown-menu">
+        <button class="menu-item green" onclick="checkForUpdatesAction()">
+          <span>🔄</span> Check for Updates
+        </button>
+        <button class="menu-item cyan" onclick="showUpdateModal()">
+          <span>📥</span> Test Update Dialog
+        </button>
+        <button class="menu-item" onclick="markAllCurrentTab(true)">
+          <span>✅</span> Mark All in Tab as Watched
+        </button>
+        <button class="menu-item" onclick="markAllCurrentTab(false)">
+          <span>◻️</span> Mark All in Tab as Unwatched
+        </button>
+        <button class="menu-item red" onclick="resetAllData()">
+          <span>🗑️</span> Reset All Watch History
+        </button>
+      </div>
     </div>
-    <div class="header-actions">
-      <button class="icon-btn" id="btn-random-pick" title="Random Unwatched Pick">
-        <svg viewBox="0 0 24 24">
-          <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM7.5 18c-.83 0-1.5-.67-1.5-1.5S6.67 15 7.5 15s1.5.67 1.5 1.5S8.33 18 7.5 18zm0-9C6.67 9 6 8.33 6 7.5S6.67 6 7.5 6 9 6.67 9 7.5 8.33 9 7.5 9zm4.5 4.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm4.5 4.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm0-9c-.83 0-1.5-.67-1.5-1.5S15.67 6 16.5 6s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
-        </svg>
+
+    <!-- BAR 1: MCU MOVIES & SERIES -->
+    <section class="tab-content active" id="tab-mcu">
+      <div class="bar-header">
+        <h2>MCU MOVIES & SERIES (68)</h2>
+        <span class="count-badge" id="mcu-count">0 Left</span>
+      </div>
+      <div class="list-wrapper" id="bar1-list"></div>
+    </section>
+
+    <!-- BAR 2: MOVIES WATCH HISTORY -->
+    <section class="tab-content" id="tab-watched">
+      <div class="bar-header">
+        <h2>MOVIES WATCH HISTORY</h2>
+        <span class="count-badge" id="watched-count">0 Done</span>
+      </div>
+      <div class="list-wrapper" id="bar2-list">
+        <div class="empty-placeholder">No items marked as watched yet.<br>Click any movie/series to shift it here!</div>
+      </div>
+    </section>
+
+    <!-- BAR 3: X-MEN MOVIES -->
+    <section class="tab-content" id="tab-xmen">
+      <div class="bar-header">
+        <h2>X-MEN MOVIES (14)</h2>
+        <span class="count-badge" id="xmen-count">0 Left</span>
+      </div>
+      <div class="list-wrapper" id="bar3-list"></div>
+    </section>
+
+    <!-- BAR 4: NON MCU SPIDER-MAN MOVIES -->
+    <section class="tab-content" id="tab-spidey">
+      <div class="bar-header">
+        <h2>NON MCU SPIDER-MAN MOVIES (5)</h2>
+        <span class="count-badge" id="spidey-count">0 Left</span>
+      </div>
+      <div class="list-wrapper" id="bar4-list"></div>
+    </section>
+  </div>
+
+  <!-- NATIVE-LOOKING UPDATE MODAL DIALOG -->
+  <div class="modal-overlay" id="update-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <span style="font-size: 1.4rem;">🟢</span>
+        <div>
+          <h3>New Update Available</h3>
+          <span style="font-size: 0.72rem; color: var(--accent-doom); font-weight: bold;">v2.2.0 (Latest Release)</span>
+        </div>
+      </div>
+      <div class="modal-body">
+        • Added Non-MCU Spider-Man Timeline (5 Movies)<br>
+        • Restored 3-Dot Options & Magic Sparkle Action<br>
+        • Fixed Bar sync & 87-item watch progress
+      </div>
+      <div class="modal-footer">
+        <button class="modal-btn secondary" onclick="closeUpdateModal()">Later</button>
+        <button class="modal-btn primary" onclick="applyDirectSync()">Update Now</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FLOATING NAVIGATION BAR -->
+  <div class="bottom-guard">
+    <nav class="bottom-nav">
+      <button class="nav-btn active" data-tab="mcu" onclick="switchTab('mcu')">
+        <span>Bar 1: MCU</span>
+        <span class="badge-pill" id="badge-mcu">0</span>
       </button>
-      <button class="icon-btn" id="btn-reset" title="Reset Watch Progress">
-        <svg viewBox="0 0 24 24">
-          <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
-        </svg>
+      <button class="nav-btn" data-tab="watched" onclick="switchTab('watched')">
+        <span>Bar 2: Done</span>
+        <span class="badge-pill" id="badge-watched">0</span>
       </button>
-    </div>
-  </header>
-
-  <!-- HERO PANEL: COUNTDOWN & OVERALL PROGRESS -->
-  <section class="hero-panel">
-    <div class="countdown-card">
-      <div class="countdown-label-group">
-        <span class="countdown-tag">COUNTDOWN TO DOOM</span>
-        <span class="countdown-target">DECEMBER 18, 2026</span>
-      </div>
-      <div class="countdown-grid">
-        <div class="timer-unit">
-          <div class="timer-val" id="cnt-days">000</div>
-          <div class="timer-sub">DAYS</div>
-        </div>
-        <div class="timer-unit">
-          <div class="timer-val" id="cnt-hrs">00</div>
-          <div class="timer-sub">HRS</div>
-        </div>
-        <div class="timer-unit">
-          <div class="timer-val" id="cnt-min">00</div>
-          <div class="timer-sub">MIN</div>
-        </div>
-        <div class="timer-unit">
-          <div class="timer-val" id="cnt-sec">00</div>
-          <div class="timer-sub">SEC</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="progress-section">
-      <div class="progress-header">
-        <span>OVERALL MARVEL ROAD TO DOOM</span>
-        <span class="val" id="progress-text">0 of 87 (0%)</span>
-      </div>
-      <div class="progress-track">
-        <div class="progress-fill" id="progress-bar"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SEARCH INPUT -->
-  <div class="search-box">
-    <div class="search-input-wrap">
-      <svg class="search-ico" viewBox="0 0 24 24">
-        <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
-      </svg>
-      <input type="text" id="search-input" class="search-input" placeholder="Search Marvel titles...">
-    </div>
-  </div>
-
-  <!-- SUB FILTER CHIPS (VISIBLE IN MCU OR WATCHED TAB) -->
-  <div class="filter-chips" id="filter-chips-container">
-    <!-- Populated by JS -->
-  </div>
-
-  <!-- TAB HEADER BANNER -->
-  <div class="tab-header-banner mcu" id="tab-banner">
-    <span class="tab-banner-title" id="tab-banner-title">MCU MOVIES & SERIES (68)</span>
-    <span class="tab-banner-pill" id="tab-banner-pill">68 Left</span>
-  </div>
-
-  <!-- MEDIA LIST CONTAINER -->
-  <main class="media-list" id="media-list">
-    <!-- Rendered dynamically by JS -->
-  </main>
-
-  <!-- 4-BAR BOTTOM NAVIGATION -->
-  <nav class="bottom-nav">
-    <button class="nav-btn active mcu" data-tab="mcu">
-      <span class="nav-label">MCU Timeline</span>
-      <span class="nav-badge" id="nav-badge-mcu">68</span>
-    </button>
-    <button class="nav-btn watched" data-tab="watched">
-      <span class="nav-label">Watch History</span>
-      <span class="nav-badge" id="nav-badge-watched">0</span>
-    </button>
-    <button class="nav-btn xmen" data-tab="xmen">
-      <span class="nav-label">X-Men</span>
-      <span class="nav-badge" id="nav-badge-xmen">14</span>
-    </button>
-    <button class="nav-btn spidey" data-tab="spidey">
-      <span class="nav-label">Spider-Man</span>
-      <span class="nav-badge" id="nav-badge-spidey">5</span>
-    </button>
-  </nav>
-
-  <!-- MODAL FOR RANDOM PICK / CONFIRM RESET -->
-  <div class="modal-backdrop" id="modal-backdrop">
-    <div class="modal-box">
-      <h2 class="modal-title" id="modal-title">RANDOM UNWATCHED PICK</h2>
-      <div class="modal-body" id="modal-body">Description here</div>
-      <div class="modal-btn-row">
-        <button class="btn-secondary" id="modal-cancel-btn">Close</button>
-        <button class="btn-primary" id="modal-action-btn">Action</button>
-      </div>
-    </div>
+      <button class="nav-btn" data-tab="xmen" onclick="switchTab('xmen')">
+        <span>Bar 3: X-Men</span>
+        <span class="badge-pill" id="badge-xmen">0</span>
+      </button>
+      <button class="nav-btn" data-tab="spidey" onclick="switchTab('spidey')">
+        <span>Bar 4: Spidey</span>
+        <span class="badge-pill" id="badge-spidey">0</span>
+      </button>
+    </nav>
   </div>
 
   <script>
-    // COMPLETE 87 ITEMS DATASET
-    const DATASET = [
-      // 68 MCU MOVIES & SERIES
-      { id: "mcu_0", title: "Captain America: The First Avenger (1942–1945)", category: "mcu", isShow: false, originalIndex: 1, releaseYear: 2011, typeTag: "Movie" },
-      { id: "mcu_1", title: "Captain Marvel (1995)", category: "mcu", isShow: false, originalIndex: 2, releaseYear: 2019, typeTag: "Movie" },
-      { id: "mcu_2", title: "Iron Man (2010)", category: "mcu", isShow: false, originalIndex: 3, releaseYear: 2008, typeTag: "Movie" },
-      { id: "mcu_3", title: "Iron Man 2 (2011)", category: "mcu", isShow: false, originalIndex: 4, releaseYear: 2010, typeTag: "Movie" },
-      { id: "mcu_4", title: "The Incredible Hulk (2011)", category: "mcu", isShow: false, originalIndex: 5, releaseYear: 2008, typeTag: "Movie" },
-      { id: "mcu_5", title: "Thor (2011)", category: "mcu", isShow: false, originalIndex: 6, releaseYear: 2011, typeTag: "Movie" },
-      { id: "mcu_6", title: "The Avengers (2012)", category: "mcu", isShow: false, originalIndex: 7, releaseYear: 2012, typeTag: "Movie" },
-      { id: "mcu_7", title: "Thor: The Dark World (2013)", category: "mcu", isShow: false, originalIndex: 8, releaseYear: 2013, typeTag: "Movie" },
-      { id: "mcu_8", title: "Iron Man 3 (2013)", category: "mcu", isShow: false, originalIndex: 9, releaseYear: 2013, typeTag: "Movie" },
-      { id: "mcu_9", title: "Captain America: The Winter Soldier (2014)", category: "mcu", isShow: false, originalIndex: 10, releaseYear: 2014, typeTag: "Movie" },
-      { id: "mcu_10", title: "Guardians of the Galaxy (2014)", category: "mcu", isShow: false, originalIndex: 11, releaseYear: 2014, typeTag: "Movie" },
-      { id: "mcu_11", title: "Guardians of the Galaxy Vol. 2 (2014)", category: "mcu", isShow: false, originalIndex: 12, releaseYear: 2017, typeTag: "Movie" },
-      { id: "mcu_12", title: "I Am Groot (2014)", category: "mcu", isShow: true, originalIndex: 13, releaseYear: 2022, typeTag: "Show" },
-      { id: "mcu_13", title: "Daredevil Season 1 (2015)", category: "mcu", isShow: true, originalIndex: 14, releaseYear: 2015, typeTag: "Show" },
-      { id: "mcu_14", title: "Jessica Jones Season 1 (2015)", category: "mcu", isShow: true, originalIndex: 15, releaseYear: 2015, typeTag: "Show" },
-      { id: "mcu_15", title: "Avengers: Age of Ultron (2015)", category: "mcu", isShow: false, originalIndex: 16, releaseYear: 2015, typeTag: "Movie" },
-      { id: "mcu_16", title: "Ant-Man (2015)", category: "mcu", isShow: false, originalIndex: 17, releaseYear: 2015, typeTag: "Movie" },
-      { id: "mcu_17", title: "Daredevil Season 2 (2016)", category: "mcu", isShow: true, originalIndex: 18, releaseYear: 2016, typeTag: "Show" },
-      { id: "mcu_18", title: "Luke Cage Season 1 (2016)", category: "mcu", isShow: true, originalIndex: 19, releaseYear: 2016, typeTag: "Show" },
-      { id: "mcu_19", title: "Captain America: Civil War (2016)", category: "mcu", isShow: false, originalIndex: 20, releaseYear: 2016, typeTag: "Movie" },
-      { id: "mcu_20", title: "Black Widow (2016)", category: "mcu", isShow: false, originalIndex: 21, releaseYear: 2021, typeTag: "Movie" },
-      { id: "mcu_21", title: "Black Panther (2016)", category: "mcu", isShow: false, originalIndex: 22, releaseYear: 2018, typeTag: "Movie" },
-      { id: "mcu_22", title: "Spider-Man: Homecoming (2016)", category: "mcu", isShow: false, originalIndex: 23, releaseYear: 2017, typeTag: "Movie" },
-      { id: "mcu_23", title: "Iron Fist Season 1 (2016)", category: "mcu", isShow: true, originalIndex: 24, releaseYear: 2017, typeTag: "Show" },
-      { id: "mcu_24", title: "The Defenders (2016)", category: "mcu", isShow: true, originalIndex: 25, releaseYear: 2017, typeTag: "Show" },
-      { id: "mcu_25", title: "Doctor Strange (2016–2017)", category: "mcu", isShow: false, originalIndex: 26, releaseYear: 2016, typeTag: "Movie" },
-      { id: "mcu_26", title: "The Punisher Season 1 (2016)", category: "mcu", isShow: true, originalIndex: 27, releaseYear: 2017, typeTag: "Show" },
-      { id: "mcu_27", title: "Jessica Jones Season 2 (2017)", category: "mcu", isShow: true, originalIndex: 28, releaseYear: 2018, typeTag: "Show" },
-      { id: "mcu_28", title: "Luke Cage Season 2 (2017)", category: "mcu", isShow: true, originalIndex: 29, releaseYear: 2018, typeTag: "Show" },
-      { id: "mcu_29", title: "Iron Fist Season 2 (2017)", category: "mcu", isShow: true, originalIndex: 30, releaseYear: 2018, typeTag: "Show" },
-      { id: "mcu_30", title: "Daredevil Season 3 (2017)", category: "mcu", isShow: true, originalIndex: 31, releaseYear: 2018, typeTag: "Show" },
-      { id: "mcu_31", title: "The Punisher Season 2 (2017)", category: "mcu", isShow: true, originalIndex: 32, releaseYear: 2019, typeTag: "Show" },
-      { id: "mcu_32", title: "Jessica Jones Season 3 (2017)", category: "mcu", isShow: true, originalIndex: 33, releaseYear: 2019, typeTag: "Show" },
-      { id: "mcu_33", title: "Thor: Ragnarok (2017)", category: "mcu", isShow: false, originalIndex: 34, releaseYear: 2017, typeTag: "Movie" },
-      { id: "mcu_34", title: "Ant-Man and the Wasp (2018)", category: "mcu", isShow: false, originalIndex: 35, releaseYear: 2018, typeTag: "Movie" },
-      { id: "mcu_35", title: "Avengers: Infinity War (2018)", category: "mcu", isShow: false, originalIndex: 36, releaseYear: 2018, typeTag: "Movie" },
-      { id: "mcu_36", title: "Avengers: Endgame (2018–2023)", category: "mcu", isShow: false, originalIndex: 37, releaseYear: 2019, typeTag: "Movie" },
-      { id: "mcu_37", title: "Loki Season 1 (2012–)", category: "mcu", isShow: true, originalIndex: 38, releaseYear: 2021, typeTag: "Show" },
-      { id: "mcu_38", title: "What If...? Season 1 (Multiverse)", category: "mcu", isShow: true, originalIndex: 39, releaseYear: 2021, typeTag: "Show" },
-      { id: "mcu_39", title: "WandaVision (2023)", category: "mcu", isShow: true, originalIndex: 40, releaseYear: 2021, typeTag: "Show" },
-      { id: "mcu_40", title: "Shang-Chi and the Legend of the Ten Rings (2023)", category: "mcu", isShow: false, originalIndex: 41, releaseYear: 2021, typeTag: "Movie" },
-      { id: "mcu_41", title: "The Falcon and the Winter Soldier (2024)", category: "mcu", isShow: true, originalIndex: 42, releaseYear: 2021, typeTag: "Show" },
-      { id: "mcu_42", title: "Spider-Man: Far From Home (2024)", category: "mcu", isShow: false, originalIndex: 43, releaseYear: 2019, typeTag: "Movie" },
-      { id: "mcu_43", title: "Eternals (2024)", category: "mcu", isShow: false, originalIndex: 44, releaseYear: 2021, typeTag: "Movie" },
-      { id: "mcu_44", title: "Doctor Strange in the Multiverse of Madness (2024)", category: "mcu", isShow: false, originalIndex: 45, releaseYear: 2022, typeTag: "Movie" },
-      { id: "mcu_45", title: "Hawkeye (2024)", category: "mcu", isShow: true, originalIndex: 46, releaseYear: 2021, typeTag: "Show" },
-      { id: "mcu_46", title: "Moon Knight (2025)", category: "mcu", isShow: true, originalIndex: 47, releaseYear: 2022, typeTag: "Show" },
-      { id: "mcu_47", title: "Black Panther: Wakanda Forever (2025)", category: "mcu", isShow: false, originalIndex: 48, releaseYear: 2022, typeTag: "Movie" },
-      { id: "mcu_48", title: "Echo (2025)", category: "mcu", isShow: true, originalIndex: 49, releaseYear: 2024, typeTag: "Show" },
-      { id: "mcu_49", title: "She-Hulk: Attorney at Law (2025)", category: "mcu", isShow: true, originalIndex: 50, releaseYear: 2022, typeTag: "Show" },
-      { id: "mcu_50", title: "Ms. Marvel (2025)", category: "mcu", isShow: true, originalIndex: 51, releaseYear: 2022, typeTag: "Show" },
-      { id: "mcu_51", title: "Thor: Love and Thunder (2025)", category: "mcu", isShow: false, originalIndex: 52, releaseYear: 2022, typeTag: "Movie" },
-      { id: "mcu_52", title: "Werewolf by Night (2025)", category: "mcu", isShow: true, originalIndex: 53, releaseYear: 2022, typeTag: "Show" },
-      { id: "mcu_53", title: "The Guardians of the Galaxy Holiday Special (2025)", category: "mcu", isShow: true, originalIndex: 54, releaseYear: 2022, typeTag: "Show" },
-      { id: "mcu_54", title: "Ant-Man and the Wasp: Quantumania (2025)", category: "mcu", isShow: false, originalIndex: 55, releaseYear: 2023, typeTag: "Movie" },
-      { id: "mcu_55", title: "Guardians of the Galaxy Vol. 3 (2025)", category: "mcu", isShow: false, originalIndex: 56, releaseYear: 2023, typeTag: "Movie" },
-      { id: "mcu_56", title: "Secret Invasion (2026)", category: "mcu", isShow: true, originalIndex: 57, releaseYear: 2023, typeTag: "Show" },
-      { id: "mcu_57", title: "The Marvels (2026)", category: "mcu", isShow: false, originalIndex: 58, releaseYear: 2023, typeTag: "Movie" },
-      { id: "mcu_58", title: "Loki Season 2 (Multiverse)", category: "mcu", isShow: true, originalIndex: 59, releaseYear: 2023, typeTag: "Show" },
-      { id: "mcu_59", title: "What If...? Season 2 (Multiverse)", category: "mcu", isShow: true, originalIndex: 60, releaseYear: 2023, typeTag: "Show" },
-      { id: "mcu_60", title: "Deadpool & Wolverine (2024)", category: "mcu", isShow: false, originalIndex: 61, releaseYear: 2024, typeTag: "Movie" },
-      { id: "mcu_61", title: "Agatha All Along (2024)", category: "mcu", isShow: true, originalIndex: 62, releaseYear: 2024, typeTag: "Show" },
-      { id: "mcu_62", title: "What If...? Season 3 (2024)", category: "mcu", isShow: true, originalIndex: 63, releaseYear: 2024, typeTag: "Show" },
-      { id: "mcu_63", title: "Your Friendly Neighborhood Spider-Man (2025)", category: "mcu", isShow: true, originalIndex: 64, releaseYear: 2025, typeTag: "Show" },
-      { id: "mcu_64", title: "Daredevil: Born Again (2025)", category: "mcu", isShow: true, originalIndex: 65, releaseYear: 2025, typeTag: "Show" },
-      { id: "mcu_65", title: "Thunderbolts* (2025)", category: "mcu", isShow: false, originalIndex: 66, releaseYear: 2025, typeTag: "Movie" },
-      { id: "mcu_66", title: "The Fantastic Four: First Steps (2025)", category: "mcu", isShow: false, originalIndex: 67, releaseYear: 2025, typeTag: "Movie" },
-      { id: "mcu_67", title: "Avengers: Doomsday (2026)", category: "mcu", isShow: false, originalIndex: 68, releaseYear: 2026, typeTag: "Movie" },
+    let currentActiveTab = 'mcu';
+    let searchQuery = '';
 
-      // 14 X-MEN MOVIES
-      { id: "xmen_0", title: "X-Men (2000)", category: "xmen", isShow: false, originalIndex: 1, releaseYear: 2000, typeTag: "Movie" },
-      { id: "xmen_1", title: "X2: X-Men United (2003)", category: "xmen", isShow: false, originalIndex: 2, releaseYear: 2003, typeTag: "Movie" },
-      { id: "xmen_2", title: "X-Men: The Last Stand (2006)", category: "xmen", isShow: false, originalIndex: 3, releaseYear: 2006, typeTag: "Movie" },
-      { id: "xmen_3", title: "X-Men Origins: Wolverine (2009)", category: "xmen", isShow: false, originalIndex: 4, releaseYear: 2009, typeTag: "Movie" },
-      { id: "xmen_4", title: "X-Men: First Class (2011)", category: "xmen", isShow: false, originalIndex: 5, releaseYear: 2011, typeTag: "Movie" },
-      { id: "xmen_5", title: "The Wolverine (2013)", category: "xmen", isShow: false, originalIndex: 6, releaseYear: 2013, typeTag: "Movie" },
-      { id: "xmen_6", title: "X-Men: Days of Future Past (2014)", category: "xmen", isShow: false, originalIndex: 7, releaseYear: 2014, typeTag: "Movie" },
-      { id: "xmen_7", title: "Deadpool (2016)", category: "xmen", isShow: false, originalIndex: 8, releaseYear: 2016, typeTag: "Movie" },
-      { id: "xmen_8", title: "X-Men: Apocalypse (2016)", category: "xmen", isShow: false, originalIndex: 9, releaseYear: 2016, typeTag: "Movie" },
-      { id: "xmen_9", title: "Logan (2017)", category: "xmen", isShow: false, originalIndex: 10, releaseYear: 2017, typeTag: "Movie" },
-      { id: "xmen_10", title: "Deadpool 2 (2018)", category: "xmen", isShow: false, originalIndex: 11, releaseYear: 2018, typeTag: "Movie" },
-      { id: "xmen_11", title: "X-Men: Dark Phoenix (2019)", category: "xmen", isShow: false, originalIndex: 12, releaseYear: 2019, typeTag: "Movie" },
-      { id: "xmen_12", title: "The New Mutants (2020)", category: "xmen", isShow: false, originalIndex: 13, releaseYear: 2020, typeTag: "Movie" },
-      { id: "xmen_13", title: "Deadpool & Wolverine (2024)", category: "xmen", isShow: false, originalIndex: 14, releaseYear: 2024, typeTag: "Movie" },
-
-      // 5 NON MCU SPIDER-MAN MOVIES
-      { id: "spidey_0", title: "Spider-Man (2002)", category: "spidey", isShow: false, originalIndex: 1, releaseYear: 2002, typeTag: "Movie" },
-      { id: "spidey_1", title: "Spider-Man 2 (2004)", category: "spidey", isShow: false, originalIndex: 2, releaseYear: 2004, typeTag: "Movie" },
-      { id: "spidey_2", title: "Spider-Man 3 (2007)", category: "spidey", isShow: false, originalIndex: 3, releaseYear: 2007, typeTag: "Movie" },
-      { id: "spidey_3", title: "The Amazing Spider-Man (2012)", category: "spidey", isShow: false, originalIndex: 4, releaseYear: 2012, typeTag: "Movie" },
-      { id: "spidey_4", title: "The Amazing Spider-Man 2 (2014)", category: "spidey", isShow: false, originalIndex: 5, releaseYear: 2014, typeTag: "Movie" }
+    const rawMCU = [
+      "Iron Man (2008)", "The Incredible Hulk (2008)", "Iron Man 2 (2010)", "Thor (2011)",
+      "Captain America: The First Avenger (2011)", "The Avengers (2012)", "Iron Man 3 (2013)",
+      "Thor: The Dark World (2013)", "Captain America: The Winter Soldier (2014)",
+      "Guardians of the Galaxy (2014)", "Avengers: Age of Ultron (2015)", "Ant-Man (2015)",
+      "Captain America: Civil War (2016)", "Doctor Strange (2016)", "Guardians of the Galaxy Vol. 2 (2017)",
+      "Spider-Man: Homecoming (2017)", "Thor: Ragnarok (2017)", "Black Panther (2018)",
+      "Avengers: Infinity War (2018)", "Ant-Man and the Wasp (2018)", "Captain Marvel (2019)",
+      "Avengers: Endgame (2019)", "Avengers: Endgame (Encore Edition) (2019)", "Spider-Man: Far From Home (2019)",
+      "WandaVision (TV Series) (2021)", "The Falcon and the Winter Soldier (TV Series) (2021)",
+      "Loki (Season 1) (2021)", "Black Widow (2021)", "What If...? (Season 1) (2021)",
+      "Shang-Chi and the Legend of the Ten Rings (2021)", "Eternals (2021)", "Hawkeye (TV Series) (2021)",
+      "Spider-Man: No Way Home (2021)", "Moon Knight (TV Series) (2022)",
+      "Doctor Strange in the Multiverse of Madness (2022)", "Ms. Marvel (TV Series) (2022)",
+      "Thor: Love and Thunder (2022)", "I Am Groot (Season 1) (2022)", "She-Hulk: Attorney at Law (TV Series) (2022)",
+      "Werewolf by Night (TV Special) (2022)", "Black Panther: Wakanda Forever (2022)",
+      "The Guardians of the Galaxy Holiday Special (TV Special) (2022)", "Ant-Man and the Wasp: Quantumania (2023)",
+      "Guardians of the Galaxy Vol. 3 (2023)", "Secret Invasion (TV Series) (2023)",
+      "I Am Groot (Season 2) (2023)", "Loki (Season 2) (2023)", "The Marvels (2023)",
+      "What If...? (Season 2) (2023)", "Echo (TV Series) (2024)", "Deadpool & Wolverine (2024)",
+      "Agatha All Along (TV Series) (2024)", "What If...? (Season 3) (2024)",
+      "Your Friendly Neighborhood Spider-Man (Season 1) (2025)", "Captain America: Brave New World (2025)",
+      "Daredevil: Born Again (Season 1) (2025)", "Thunderbolts* (2025)", "Ironheart (TV Series) (2025)",
+      "The Fantastic Four: First Steps (2025)", "Eyes of Wakanda (TV Series) (2025)",
+      "Marvel Zombies (TV Series) (2025)", "Wonder Man (TV Series) (2026)",
+      "Daredevil: Born Again (Season 2) (2026)", "The Punisher: One Last Kill (TV Special) (2026)",
+      "Spider-Man: Brand New Day (2026)", "VisionQuest (TV Series) (2026)",
+      "Your Friendly Neighborhood Spider-Man (Season 2) (2026)", "Avengers: Doomsday (2026)"
     ];
 
-    // STATE
-    const STORAGE_KEY = "dooms_app_v10_storage";
-    let watchedSet = new Set();
-    let currentTab = "mcu"; // "mcu", "watched", "xmen", "spidey"
-    let mcuFilter = "ALL"; // "ALL", "MOVIES", "SHOWS"
-    let watchedFilter = "ALL"; // "ALL", "MCU", "XMEN", "SPIDEY"
-    let searchQuery = "";
+    const rawXMen = [
+      "X-Men (2000)", "X2: X-Men United (2003)", "X-Men: The Last Stand (2006)",
+      "X-Men Origins: Wolverine (2009)", "X-Men: First Class (2011)", "The Wolverine (2013)",
+      "X-Men: Days of Future Past (2014)", "Deadpool (2016)", "X-Men: Apocalypse (2016)",
+      "Logan (2017)", "Deadpool 2 (2018)", "Dark Phoenix (2019)", "The New Mutants (2020)",
+      "Deadpool & Wolverine (2024)"
+    ];
 
-    // LOAD SAVED STATE
-    function loadSavedState() {
-      try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        if (raw) {
-          const list = JSON.parse(raw);
-          watchedSet = new Set(list);
+    const rawSpidey = [
+      "Spider-Man (2002)", "Spider-Man 2 (2004)", "Spider-Man 3 (2007)",
+      "The Amazing Spider-Man (2012)", "The Amazing Spider-Man 2 (2014)"
+    ];
+
+    let items = [];
+
+    function safeGet(key) {
+      try { return localStorage.getItem(key); } catch (e) { return null; }
+    }
+    function safeSet(key, val) {
+      try { localStorage.setItem(key, val); } catch (e) {}
+    }
+
+    function initData() {
+      items = [];
+      rawMCU.forEach((title, index) => {
+        items.push({ id: `mcu_${index}`, title, category: 'mcu', originalIndex: index + 1, watched: false });
+      });
+      rawXMen.forEach((title, index) => {
+        items.push({ id: `xmen_${index}`, title, category: 'xmen', originalIndex: index + 1, watched: false });
+      });
+      rawSpidey.forEach((title, index) => {
+        items.push({ id: `spidey_${index}`, title, category: 'spidey', originalIndex: index + 1, watched: false });
+      });
+
+      const saved = safeGet('dooms_app_v87_final');
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          if (Array.isArray(parsed)) {
+            parsed.forEach(savedItem => {
+              const match = items.find(i => i.id === savedItem.id);
+              if (match) match.watched = Boolean(savedItem.watched);
+            });
+          }
+        } catch (err) {}
+      }
+    }
+
+    function toggleMenu() {
+      const menu = document.getElementById('dropdown-menu');
+      menu.classList.toggle('show');
+    }
+
+    document.addEventListener('click', (e) => {
+      const menu = document.getElementById('dropdown-menu');
+      const dotsBtn = document.querySelector('.dots-btn');
+      if (menu && !menu.contains(e.target) && !dotsBtn.contains(e.target)) {
+        menu.classList.remove('show');
+      }
+    });
+
+    function showUpdateModal() {
+      toggleMenu();
+      document.getElementById('update-modal').classList.add('active');
+    }
+
+    function closeUpdateModal() {
+      document.getElementById('update-modal').classList.remove('active');
+    }
+
+    function checkForUpdatesAction() {
+      toggleMenu();
+      showUpdateModal();
+    }
+
+    function applyDirectSync() {
+      closeUpdateModal();
+      if ('caches' in window) {
+        caches.keys().then(names => names.forEach(name => caches.delete(name)));
+      }
+      location.reload();
+    }
+
+    function openMagicInsight() {
+      const unwatched = items.filter(i => !i.watched);
+      if (unwatched.length > 0) {
+        alert(`✨ Next Up in Timeline:\n\n${unwatched[0].title}`);
+      } else {
+        alert("🎉 Congratulations! You have completed all 87 movies and shows!");
+      }
+    }
+
+    function markAllCurrentTab(status) {
+      toggleMenu();
+      items.forEach(i => {
+        if (currentActiveTab === 'watched') {
+          i.watched = status;
+        } else if (i.category === currentActiveTab) {
+          i.watched = status;
         }
-      } catch (e) {
-        console.error("Failed to load state", e);
+      });
+      safeSet('dooms_app_v87_final', JSON.stringify(items));
+      render();
+    }
+
+    function resetAllData() {
+      toggleMenu();
+      if (confirm("Are you sure you want to reset all watch history?")) {
+        items.forEach(i => i.watched = false);
+        safeSet('dooms_app_v87_final', JSON.stringify(items));
+        render();
       }
     }
 
-    function saveState() {
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(Array.from(watchedSet)));
-      } catch (e) {
-        console.error("Failed to save state", e);
+    function handleSearch(val) {
+      searchQuery = val.toLowerCase().trim();
+      render();
+    }
+
+    function toggleWatch(id) {
+      const item = items.find(i => i.id === id);
+      if (item) {
+        item.watched = !item.watched;
+        safeSet('dooms_app_v87_final', JSON.stringify(items));
+        render();
       }
     }
 
-    // COUNTDOWN TICKER
-    const targetDate = new Date("2026-12-18T00:00:00Z").getTime();
+    function switchTab(tabId) {
+      currentActiveTab = tabId;
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+
+      const selectedTab = document.getElementById(`tab-${tabId}`);
+      const selectedBtn = document.querySelector(`.nav-btn[data-tab="${tabId}"]`);
+      if (selectedTab) selectedTab.classList.add('active');
+      if (selectedBtn) selectedBtn.classList.add('active');
+    }
+
     function updateCountdown() {
-      const now = new Date().getTime();
-      const diff = Math.max(0, targetDate - now);
-      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+      try {
+        const now = new Date();
+        const target = new Date(2026, 11, 18, 0, 0, 1, 0);
+        
+        if (target > now) {
+          let years = target.getFullYear() - now.getFullYear();
+          let months = target.getMonth() - now.getMonth() + (years * 12);
+          let days = target.getDate() - now.getDate();
+          let hours = target.getHours() - now.getHours();
+          let minutes = target.getMinutes() - now.getMinutes();
+          let seconds = target.getSeconds() - now.getSeconds();
 
-      document.getElementById("cnt-days").innerText = String(days).padStart(3, '0');
-      document.getElementById("cnt-hrs").innerText = String(hours).padStart(2, '0');
-      document.getElementById("cnt-min").innerText = String(minutes).padStart(2, '0');
-      document.getElementById("cnt-sec").innerText = String(seconds).padStart(2, '0');
+          if (seconds < 0) { seconds += 60; minutes--; }
+          if (minutes < 0) { minutes += 60; hours--; }
+          if (hours < 0) { hours += 24; days--; }
+          if (days < 0) {
+            const prevMonthLastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+            days += prevMonthLastDay;
+            months--;
+          }
+
+          document.getElementById("months").innerText = String(months).padStart(2, '0');
+          document.getElementById("days").innerText = String(days).padStart(2, '0');
+          document.getElementById("hours").innerText = String(hours).padStart(2, '0');
+          document.getElementById("minutes").innerText = String(minutes).padStart(2, '0');
+          document.getElementById("seconds").innerText = String(seconds).padStart(2, '0');
+        } else {
+          document.getElementById("months").innerText = "00";
+          document.getElementById("days").innerText = "00";
+          document.getElementById("hours").innerText = "00";
+          document.getElementById("minutes").innerText = "00";
+          document.getElementById("seconds").innerText = "00";
+        }
+      } catch (e) {}
     }
+
+    function render() {
+      const bar1List = document.getElementById('bar1-list');
+      const bar2List = document.getElementById('bar2-list');
+      const bar3List = document.getElementById('bar3-list');
+      const bar4List = document.getElementById('bar4-list');
+
+      if (!bar1List || !bar2List || !bar3List || !bar4List) return;
+
+      bar1List.innerHTML = '';
+      bar2List.innerHTML = '';
+      bar3List.innerHTML = '';
+      bar4List.innerHTML = '';
+
+      let mcuCount = 0, watchedCount = 0, xmenCount = 0, spideyCount = 0;
+      const totalItems = items.length;
+
+      items.forEach(item => {
+        if (searchQuery && !item.title.toLowerCase().includes(searchQuery)) return;
+
+        const itemEl = document.createElement('div');
+        itemEl.className = 'item-card';
+        itemEl.onclick = (e) => {
+          if (e.target.tagName !== 'INPUT') toggleWatch(item.id);
+        };
+
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.className = 'item-checkbox';
+        checkbox.checked = item.watched;
+        checkbox.onchange = () => toggleWatch(item.id);
+
+        const badge = document.createElement('span');
+        badge.className = 'item-index-badge';
+        badge.innerText = `#${String(item.originalIndex).padStart(2, '0')}`;
+
+        const infoDiv = document.createElement('div');
+        infoDiv.className = 'item-info';
+
+        const titleSpan = document.createElement('span');
+        titleSpan.className = 'item-title';
+        titleSpan.innerText = item.title;
+
+        const metaDiv = document.createElement('div');
+        metaDiv.className = 'item-meta';
+        const tagLabel = item.category === 'mcu' ? 'MCU' : (item.category === 'xmen' ? 'X-MEN' : 'SPIDER-MAN');
+        metaDiv.innerHTML = `<span class="meta-tag">${tagLabel}</span>`;
+
+        infoDiv.appendChild(titleSpan);
+        infoDiv.appendChild(metaDiv);
+
+        itemEl.appendChild(checkbox);
+        itemEl.appendChild(badge);
+        itemEl.appendChild(infoDiv);
+
+        if (item.watched) {
+          watchedCount++;
+          bar2List.appendChild(itemEl);
+        } else {
+          if (item.category === 'mcu') {
+            mcuCount++;
+            bar1List.appendChild(itemEl);
+          } else if (item.category === 'xmen') {
+            xmenCount++;
+            bar3List.appendChild(itemEl);
+          } else if (item.category === 'spidey') {
+            spideyCount++;
+            bar4List.appendChild(itemEl);
+          }
+        }
+      });
+
+      if (watchedCount === 0) {
+        bar2List.innerHTML = '<div class="empty-placeholder">No items marked as watched yet.<br>Click any movie/series to shift it here!</div>';
+      }
+
+      const progressPercent = totalItems > 0 ? Math.round((watchedCount / totalItems) * 100) : 0;
+      document.getElementById('progress-fill').style.width = `${progressPercent}%`;
+      document.getElementById('progress-stats').innerText = `${watchedCount} of ${totalItems} (${progressPercent}%)`;
+
+      document.getElementById('mcu-count').innerText = `${mcuCount} Left`;
+      document.getElementById('watched-count').innerText = `${watchedCount} Done`;
+      document.getElementById('xmen-count').innerText = `${xmenCount} Left`;
+      document.getElementById('spidey-count').innerText = `${spideyCount} Left`;
+
+      document.getElementById('badge-mcu').innerText = mcuCount;
+      document.getElementById('badge-watched').innerText = watchedCount;
+      document.getElementById('badge-xmen').innerText = xmenCount;
+      document.getElementById('badge-spidey').innerText = spideyCount;
+    }
+
+    initData();
+    render();
     setInterval(updateCountdown, 1000);
     updateCountdown();
-
-    // RENDER LOGIC
-    function renderApp() {
-      const totalWatched = watchedSet.size;
-      const totalItems = DATASET.length;
-      const pct = totalItems > 0 ? Math.round((totalWatched / totalItems) * 100) : 0;
-
-      // Update Overall Progress
-      document.getElementById("progress-text").innerText = `${totalWatched} of ${totalItems} (${pct}%)`;
-      document.getElementById("progress-bar").style.width = `${pct}%`;
-
-      // Calculate Category Counts
-      const mcuTotal = DATASET.filter(x => x.category === 'mcu').length;
-      const mcuWatched = DATASET.filter(x => x.category === 'mcu' && watchedSet.has(x.id)).length;
-      const mcuLeft = mcuTotal - mcuWatched;
-
-      const xmenTotal = DATASET.filter(x => x.category === 'xmen').length;
-      const xmenWatched = DATASET.filter(x => x.category === 'xmen' && watchedSet.has(x.id)).length;
-      const xmenLeft = xmenTotal - xmenWatched;
-
-      const spideyTotal = DATASET.filter(x => x.category === 'spidey').length;
-      const spideyWatched = DATASET.filter(x => x.category === 'spidey' && watchedSet.has(x.id)).length;
-      const spideyLeft = spideyTotal - spideyWatched;
-
-      // Update Navigation Badges
-      document.getElementById("nav-badge-mcu").innerText = mcuLeft;
-      document.getElementById("nav-badge-watched").innerText = totalWatched;
-      document.getElementById("nav-badge-xmen").innerText = xmenLeft;
-      document.getElementById("nav-badge-spidey").innerText = spideyLeft;
-
-      // Update Active Navigation Item
-      document.querySelectorAll(".nav-btn").forEach(btn => {
-        const tab = btn.getAttribute("data-tab");
-        if (tab === currentTab) {
-          btn.classList.add("active");
-        } else {
-          btn.classList.remove("active");
-        }
-      });
-
-      // Update Tab Header Banner
-      const banner = document.getElementById("tab-banner");
-      const bannerTitle = document.getElementById("tab-banner-title");
-      const bannerPill = document.getElementById("tab-banner-pill");
-
-      banner.className = `tab-header-banner ${currentTab}`;
-      if (currentTab === 'mcu') {
-        bannerTitle.innerText = "MCU MOVIES & SERIES (68)";
-        bannerPill.innerText = `${mcuLeft} Left`;
-      } else if (currentTab === 'watched') {
-        bannerTitle.innerText = "MOVIES WATCH HISTORY";
-        bannerPill.innerText = `${totalWatched} Done`;
-      } else if (currentTab === 'xmen') {
-        bannerTitle.innerText = "X-MEN MOVIES (14)";
-        bannerPill.innerText = `${xmenLeft} Left`;
-      } else if (currentTab === 'spidey') {
-        bannerTitle.innerText = "NON MCU SPIDER-MAN MOVIES (5)";
-        bannerPill.innerText = `${spideyLeft} Left`;
-      }
-
-      // Render Sub-filter Chips
-      renderFilterChips();
-
-      // Filter Data for Main List
-      let displayItems = [];
-      if (currentTab === 'mcu') {
-        displayItems = DATASET.filter(x => x.category === 'mcu' && !watchedSet.has(x.id));
-        if (mcuFilter === 'MOVIES') displayItems = displayItems.filter(x => !x.isShow);
-        if (mcuFilter === 'SHOWS') displayItems = displayItems.filter(x => x.isShow);
-      } else if (currentTab === 'watched') {
-        displayItems = DATASET.filter(x => watchedSet.has(x.id));
-        if (watchedFilter === 'MCU') displayItems = displayItems.filter(x => x.category === 'mcu');
-        if (watchedFilter === 'XMEN') displayItems = displayItems.filter(x => x.category === 'xmen');
-        if (watchedFilter === 'SPIDEY') displayItems = displayItems.filter(x => x.category === 'spidey');
-      } else if (currentTab === 'xmen') {
-        displayItems = DATASET.filter(x => x.category === 'xmen' && !watchedSet.has(x.id));
-      } else if (currentTab === 'spidey') {
-        displayItems = DATASET.filter(x => x.category === 'spidey' && !watchedSet.has(x.id));
-      }
-
-      // Apply Search Filter
-      if (searchQuery.trim().length > 0) {
-        const q = searchQuery.toLowerCase().trim();
-        displayItems = displayItems.filter(x => x.title.toLowerCase().includes(q));
-      }
-
-      // Render Media Cards
-      const listContainer = document.getElementById("media-list");
-      if (displayItems.length === 0) {
-        listContainer.innerHTML = `
-          <div class="empty-state">
-            <svg viewBox="0 0 24 24">
-              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
-            </svg>
-            <div>No titles found</div>
-          </div>
-        `;
-        return;
-      }
-
-      let html = "";
-      displayItems.forEach(item => {
-        const isWatched = watchedSet.has(item.id);
-        const idxText = `#${String(item.originalIndex).padStart(2, '0')}`;
-        const catTag = item.category === 'spidey' ? 'SPIDER-MAN' : item.category.toUpperCase();
-
-        html += `
-          <div class="media-card ${item.category} ${isWatched ? 'watched' : ''}" data-id="${item.id}">
-            <div class="card-checkbox">
-              <svg viewBox="0 0 24 24">
-                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-              </svg>
-            </div>
-            <div class="card-content">
-              <div class="card-title">${item.title}</div>
-              <div class="card-meta-row">
-                <span class="card-index">${idxText}</span>
-                <span class="meta-tag tag-category">${catTag}</span>
-                <span class="meta-tag ${item.isShow ? 'tag-show' : 'tag-movie'}">${item.typeTag}</span>
-                <span class="meta-tag tag-category">${item.releaseYear}</span>
-              </div>
-            </div>
-          </div>
-        `;
-      });
-      listContainer.innerHTML = html;
-
-      // Attach Card Clicks
-      document.querySelectorAll(".media-card").forEach(card => {
-        card.addEventListener("click", () => {
-          const id = card.getAttribute("data-id");
-          toggleWatched(id);
-        });
-      });
-    }
-
-    function renderFilterChips() {
-      const container = document.getElementById("filter-chips-container");
-      if (currentTab === 'mcu') {
-        container.style.display = "flex";
-        container.innerHTML = `
-          <div class="chip ${mcuFilter === 'ALL' ? 'active' : ''}" data-filter="ALL">All MCU (68)</div>
-          <div class="chip ${mcuFilter === 'MOVIES' ? 'active' : ''}" data-filter="MOVIES">Movies Only</div>
-          <div class="chip ${mcuFilter === 'SHOWS' ? 'active' : ''}" data-filter="SHOWS">Series / Shows</div>
-        `;
-        container.querySelectorAll(".chip").forEach(ch => {
-          ch.addEventListener("click", () => {
-            mcuFilter = ch.getAttribute("data-filter");
-            renderApp();
-          });
-        });
-      } else if (currentTab === 'watched') {
-        container.style.display = "flex";
-        container.innerHTML = `
-          <div class="chip ${watchedFilter === 'ALL' ? 'active' : ''}" data-wfilter="ALL">All Done</div>
-          <div class="chip ${watchedFilter === 'MCU' ? 'active' : ''}" data-wfilter="MCU">MCU</div>
-          <div class="chip ${watchedFilter === 'XMEN' ? 'active' : ''}" data-wfilter="XMEN">X-Men</div>
-          <div class="chip ${watchedFilter === 'SPIDEY' ? 'active' : ''}" data-wfilter="SPIDEY">Spider-Man</div>
-        `;
-        container.querySelectorAll(".chip").forEach(ch => {
-          ch.addEventListener("click", () => {
-            watchedFilter = ch.getAttribute("data-wfilter");
-            renderApp();
-          });
-        });
-      } else {
-        container.style.display = "none";
-      }
-    }
-
-    function toggleWatched(id) {
-      if (watchedSet.has(id)) {
-        watchedSet.delete(id);
-      } else {
-        watchedSet.add(id);
-      }
-      saveState();
-      renderApp();
-    }
-
-    // TAB SELECTION
-    document.querySelectorAll(".nav-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
-        currentTab = btn.getAttribute("data-tab");
-        renderApp();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      });
-    });
-
-    // SEARCH LISTENER
-    document.getElementById("search-input").addEventListener("input", (e) => {
-      searchQuery = e.target.value;
-      renderApp();
-    });
-
-    // RANDOM PICK MODAL
-    const modalBackdrop = document.getElementById("modal-backdrop");
-    const modalTitle = document.getElementById("modal-title");
-    const modalBody = document.getElementById("modal-body");
-    const modalActionBtn = document.getElementById("modal-action-btn");
-    const modalCancelBtn = document.getElementById("modal-cancel-btn");
-
-    document.getElementById("btn-random-pick").addEventListener("click", () => {
-      let unwatchedPool = [];
-      if (currentTab === 'mcu') {
-        unwatchedPool = DATASET.filter(x => x.category === 'mcu' && !watchedSet.has(x.id));
-      } else if (currentTab === 'xmen') {
-        unwatchedPool = DATASET.filter(x => x.category === 'xmen' && !watchedSet.has(x.id));
-      } else if (currentTab === 'spidey') {
-        unwatchedPool = DATASET.filter(x => x.category === 'spidey' && !watchedSet.has(x.id));
-      } else {
-        unwatchedPool = DATASET.filter(x => !watchedSet.has(x.id));
-      }
-
-      if (unwatchedPool.length === 0) {
-        modalTitle.innerText = "ALL CAUGHT UP!";
-        modalBody.innerText = "You have completed all titles in this section! Ready for Avengers: Doomsday!";
-        modalActionBtn.style.display = "none";
-        modalCancelBtn.innerText = "Awesome";
-      } else {
-        const picked = unwatchedPool[Math.floor(Math.random() * unwatchedPool.length)];
-        modalTitle.innerText = "NEXT ON YOUR WATCHLIST";
-        modalBody.innerHTML = `
-          <strong style="color: #fff; font-size: 15px;">${picked.title}</strong><br><br>
-          <span style="color: var(--accent-doom); font-weight: 700;">#${picked.originalIndex} in ${picked.category.toUpperCase()}</span> • ${picked.typeTag} (${picked.releaseYear})
-        `;
-        modalActionBtn.style.display = "block";
-        modalActionBtn.innerText = "Mark as Watched";
-        modalActionBtn.onclick = () => {
-          watchedSet.add(picked.id);
-          saveState();
-          renderApp();
-          modalBackdrop.classList.remove("show");
-        };
-        modalCancelBtn.innerText = "Close";
-      }
-      modalBackdrop.classList.add("show");
-    });
-
-    // RESET MODAL
-    document.getElementById("btn-reset").addEventListener("click", () => {
-      modalTitle.innerText = "RESET WATCH PROGRESS?";
-      modalBody.innerText = "Are you sure you want to reset your watchlist? All 87 MCU, X-Men, and Spider-Man items will be marked as unwatched.";
-      modalActionBtn.style.display = "block";
-      modalActionBtn.innerText = "Reset All";
-      modalActionBtn.onclick = () => {
-        watchedSet.clear();
-        saveState();
-        renderApp();
-        modalBackdrop.classList.remove("show");
-      };
-      modalCancelBtn.innerText = "Cancel";
-      modalBackdrop.classList.add("show");
-    });
-
-    modalCancelBtn.addEventListener("click", () => {
-      modalBackdrop.classList.remove("show");
-    });
-    modalBackdrop.addEventListener("click", (e) => {
-      if (e.target === modalBackdrop) {
-        modalBackdrop.classList.remove("show");
-      }
-    });
-
-    // INIT
-    loadSavedState();
-    renderApp();
   </script>
 </body>
 </html>
