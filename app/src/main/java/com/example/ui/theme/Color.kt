@@ -23,6 +23,9 @@ val AccentXMenGlow = Color(0x4DF5B301)
 val AccentSeries = Color(0xFF00D2FF)
 val AccentSeriesGlow = Color(0x4D00D2FF)
 
+val AccentSpidey = Color(0xFF00D2FF)
+val AccentSpideyGlow = Color(0x4D00D2FF)
+
 val TextPrimary = Color(0xFFF3F4F6)
 val TextSecondary = Color(0xFF9CA3AF)
 val TextMuted = Color(0xFF6B7280)

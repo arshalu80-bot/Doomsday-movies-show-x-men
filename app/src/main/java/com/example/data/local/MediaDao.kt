@@ -12,6 +12,9 @@ interface MediaDao {
     @Query("SELECT * FROM media_items ORDER BY category ASC, originalIndex ASC")
     fun getAllItems(): Flow<List<MediaItem>>
 
+    @Query("SELECT * FROM media_items ORDER BY category ASC, originalIndex ASC")
+    suspend fun getAllItemsSync(): List<MediaItem>
+
     @Query("SELECT * FROM media_items WHERE category = :category ORDER BY originalIndex ASC")
     fun getItemsByCategory(category: String): Flow<List<MediaItem>>
 

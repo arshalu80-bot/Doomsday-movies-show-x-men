@@ -32,7 +32,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ui.theme.AccentMCU
-import com.example.ui.theme.AccentSeries
+import com.example.ui.theme.AccentSpidey
 import com.example.ui.theme.AccentWatched
 import com.example.ui.theme.AccentXMen
 import com.example.ui.theme.TextMuted
@@ -46,7 +46,7 @@ fun DoomsBottomNav(
     mcuLeftCount: Int,
     watchedCount: Int,
     xmenLeftCount: Int,
-    seriesLeftCount: Int,
+    spideyLeftCount: Int,
     onTabSelected: (DoomsTab) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -71,7 +71,7 @@ fun DoomsBottomNav(
             verticalAlignment = Alignment.CenterVertically
         ) {
             NavButton(
-                title = "Bar 1: MCU",
+                title = "MCU Timeline",
                 badgeCount = mcuLeftCount,
                 isSelected = currentTab == DoomsTab.MCU,
                 accentColor = AccentMCU,
@@ -81,7 +81,7 @@ fun DoomsBottomNav(
             )
 
             NavButton(
-                title = "Bar 2: Done",
+                title = "Watch History",
                 badgeCount = watchedCount,
                 isSelected = currentTab == DoomsTab.WATCHED,
                 accentColor = AccentWatched,
@@ -91,7 +91,7 @@ fun DoomsBottomNav(
             )
 
             NavButton(
-                title = "Bar 3: X-Men",
+                title = "X-Men",
                 badgeCount = xmenLeftCount,
                 isSelected = currentTab == DoomsTab.XMEN,
                 accentColor = AccentXMen,
@@ -101,12 +101,12 @@ fun DoomsBottomNav(
             )
 
             NavButton(
-                title = "Bar 4: Shows",
-                badgeCount = seriesLeftCount,
-                isSelected = currentTab == DoomsTab.SERIES,
-                accentColor = AccentSeries,
-                onClick = { onTabSelected(DoomsTab.SERIES) },
-                testTag = "nav_btn_series",
+                title = "Spider-Man",
+                badgeCount = spideyLeftCount,
+                isSelected = currentTab == DoomsTab.SPIDEY,
+                accentColor = AccentSpidey,
+                onClick = { onTabSelected(DoomsTab.SPIDEY) },
+                testTag = "nav_btn_spidey",
                 modifier = Modifier.weight(1f)
             )
         }

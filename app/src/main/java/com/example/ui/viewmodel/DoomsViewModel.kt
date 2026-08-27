@@ -23,10 +23,10 @@ import java.util.TimeZone
 import kotlin.random.Random
 
 enum class DoomsTab(val title: String, val badgeKey: String) {
-    MCU("Bar 1: MCU", "mcu"),
-    WATCHED("Bar 2: Done", "watched"),
-    XMEN("Bar 3: X-Men", "xmen"),
-    SERIES("Bar 4: Shows", "series")
+    MCU("MCU Timeline", "mcu"),
+    WATCHED("Watch History", "watched"),
+    XMEN("X-Men", "xmen"),
+    SPIDEY("Spider-Man", "spidey")
 }
 
 enum class MediaFilter(val label: String) {
@@ -49,14 +49,14 @@ data class DoomsUiState(
     val currentTab: DoomsTab = DoomsTab.MCU,
     val searchQuery: String = "",
     val activeFilter: MediaFilter = MediaFilter.ALL,
-    val watchedSubFilter: String = "ALL", // "ALL", "MCU", "XMEN", "SERIES"
+    val watchedSubFilter: String = "ALL", // "ALL", "MCU", "XMEN", "SPIDEY"
     val mcuUnwatched: List<MediaItem> = emptyList(),
     val watchedItems: List<MediaItem> = emptyList(),
     val xmenUnwatched: List<MediaItem> = emptyList(),
-    val seriesUnwatched: List<MediaItem> = emptyList(),
+    val spideyUnwatched: List<MediaItem> = emptyList(),
     val totalMcuCount: Int = 0,
     val totalXmenCount: Int = 0,
-    val totalSeriesCount: Int = 0,
+    val totalSpideyCount: Int = 0,
     val totalItemsCount: Int = 0,
     val totalWatchedCount: Int = 0,
     val randomPickedItem: MediaItem? = null,
@@ -277,11 +277,11 @@ class DoomsViewModel(application: Application) : AndroidViewModel(application) {
     ) { allItems, filters ->
         val mcuAll = allItems.filter { it.category == "mcu" }
         val xmenAll = allItems.filter { it.category == "xmen" }
-        val seriesAll = allItems.filter { it.isShow }
+        val spideyAll = allItems.filter { it.category == "spidey" }
 
         val mcuUnwatched = mcuAll.filter { !it.watched }
         val xmenUnwatched = xmenAll.filter { !it.watched }
-        val seriesUnwatched = seriesAll.filter { !it.watched }
+        val spideyUnwatched = spideyAll.filter { !it.watched }
         val watchedItems = allItems.filter { it.watched }
 
         DoomsUiState(
@@ -292,10 +292,10 @@ class DoomsViewModel(application: Application) : AndroidViewModel(application) {
             mcuUnwatched = mcuUnwatched,
             watchedItems = watchedItems,
             xmenUnwatched = xmenUnwatched,
-            seriesUnwatched = seriesUnwatched,
+            spideyUnwatched = spideyUnwatched,
             totalMcuCount = mcuAll.size,
             totalXmenCount = xmenAll.size,
-            totalSeriesCount = seriesAll.size,
+            totalSpideyCount = spideyAll.size,
             totalItemsCount = allItems.size,
             totalWatchedCount = watchedItems.size,
             randomPickedItem = filters.randomPick,
@@ -335,10 +335,7 @@ class DoomsViewModel(application: Application) : AndroidViewModel(application) {
             when (tab) {
                 DoomsTab.MCU -> repository.markAllInCategory("mcu", watched)
                 DoomsTab.XMEN -> repository.markAllInCategory("xmen", watched)
-                DoomsTab.SERIES -> {
-                    val currentSeries = uiState.value.seriesUnwatched
-                    currentSeries.forEach { repository.toggleWatched(it.copy(watched = !watched)) }
-                }
+                DoomsTab.SPIDEY -> repository.markAllInCategory("spidey", watched)
                 DoomsTab.WATCHED -> return@launch
             }
         }
@@ -356,10 +353,10 @@ class DoomsViewModel(application: Application) : AndroidViewModel(application) {
             val unwatchedPool = when (currentState.currentTab) {
                 DoomsTab.MCU -> currentState.mcuUnwatched
                 DoomsTab.XMEN -> currentState.xmenUnwatched
-                DoomsTab.SERIES -> currentState.seriesUnwatched
+                DoomsTab.SPIDEY -> currentState.spideyUnwatched
                 DoomsTab.WATCHED -> {
                     // Pick from all unwatched
-                    currentState.mcuUnwatched + currentState.xmenUnwatched + currentState.seriesUnwatched
+                    currentState.mcuUnwatched + currentState.xmenUnwatched + currentState.spideyUnwatched
                 }
             }
             if (unwatchedPool.isNotEmpty()) {

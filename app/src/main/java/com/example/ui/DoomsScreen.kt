@@ -73,6 +73,7 @@ import com.example.ui.components.UpdateDialog
 import com.example.ui.theme.AccentDoom
 import com.example.ui.theme.AccentMCU
 import com.example.ui.theme.AccentSeries
+import com.example.ui.theme.AccentSpidey
 import com.example.ui.theme.AccentWatched
 import com.example.ui.theme.AccentXMen
 import com.example.ui.theme.BgDark
@@ -106,7 +107,7 @@ fun DoomsScreen(
         uiState.mcuUnwatched,
         uiState.watchedItems,
         uiState.xmenUnwatched,
-        uiState.seriesUnwatched
+        uiState.spideyUnwatched
     ) {
         val baseList: List<MediaItem> = when (uiState.currentTab) {
             DoomsTab.MCU -> uiState.mcuUnwatched
@@ -115,7 +116,7 @@ fun DoomsScreen(
                 else uiState.watchedItems.filter { it.category.equals(uiState.watchedSubFilter, ignoreCase = true) }
             }
             DoomsTab.XMEN -> uiState.xmenUnwatched
-            DoomsTab.SERIES -> uiState.seriesUnwatched
+            DoomsTab.SPIDEY -> uiState.spideyUnwatched
         }
 
         // Apply search query
@@ -125,8 +126,8 @@ fun DoomsScreen(
             baseList.filter { it.title.contains(uiState.searchQuery, ignoreCase = true) }
         }
 
-        // Apply type filters (for non-watched tabs)
-        if (uiState.currentTab != DoomsTab.WATCHED) {
+        // Apply type filters (for MCU tab)
+        if (uiState.currentTab == DoomsTab.MCU) {
             filtered = when (uiState.activeFilter) {
                 MediaFilter.ALL -> filtered
                 MediaFilter.MOVIES -> filtered.filter { !it.isShow && it.typeTag.equals("Movie", ignoreCase = true) }
@@ -165,7 +166,7 @@ fun DoomsScreen(
                 mcuLeftCount = uiState.mcuUnwatched.size,
                 watchedCount = uiState.watchedItems.size,
                 xmenLeftCount = uiState.xmenUnwatched.size,
-                seriesLeftCount = uiState.seriesUnwatched.size,
+                spideyLeftCount = uiState.spideyUnwatched.size,
                 onTabSelected = { viewModel.selectTab(it) }
             )
         }
@@ -227,7 +228,7 @@ fun DoomsScreen(
                                     DoomsTab.MCU -> uiState.mcuUnwatched.size
                                     DoomsTab.WATCHED -> uiState.watchedItems.size
                                     DoomsTab.XMEN -> uiState.xmenUnwatched.size
-                                    DoomsTab.SERIES -> uiState.seriesUnwatched.size
+                                    DoomsTab.SPIDEY -> uiState.spideyUnwatched.size
                                 }
                             )
 
@@ -351,7 +352,7 @@ fun DoomsScreen(
             },
             text = {
                 Text(
-                    text = "This will mark all MCU, X-Men, and Marvel Series items as unwatched.",
+                    text = "This will mark all MCU, X-Men, and Spider-Man items as unwatched.",
                     style = MaterialTheme.typography.bodyMedium.copy(color = TextSecondary)
                 )
             },
@@ -497,13 +498,17 @@ private fun FilterChipsRow(
     onWatchedSubFilterSelected: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    if (currentTab != DoomsTab.MCU && currentTab != DoomsTab.WATCHED) {
+        return
+    }
+
     LazyRow(
         contentPadding = PaddingValues(horizontal = 14.dp, vertical = 4.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         modifier = modifier.fillMaxWidth()
     ) {
         if (currentTab == DoomsTab.WATCHED) {
-            val watchedFilters = listOf("ALL" to "All Done", "MCU" to "MCU", "XMEN" to "X-Men", "SERIES" to "Shows")
+            val watchedFilters = listOf("ALL" to "All Done", "MCU" to "MCU", "XMEN" to "X-Men", "SPIDEY" to "Spider-Man")
             items(watchedFilters) { (key, label) ->
                 val isSelected = watchedSubFilter == key
                 FilterChip(
@@ -513,7 +518,7 @@ private fun FilterChipsRow(
                     onClick = { onWatchedSubFilterSelected(key) }
                 )
             }
-        } else {
+        } else if (currentTab == DoomsTab.MCU) {
             val filters = listOf(
                 MediaFilter.ALL,
                 MediaFilter.MOVIES,
@@ -522,16 +527,10 @@ private fun FilterChipsRow(
             )
             items(filters) { filter ->
                 val isSelected = activeFilter == filter
-                val accentColor = when (currentTab) {
-                    DoomsTab.MCU -> AccentMCU
-                    DoomsTab.XMEN -> AccentXMen
-                    DoomsTab.SERIES -> AccentSeries
-                    else -> AccentDoom
-                }
                 FilterChip(
                     label = filter.label,
                     isSelected = isSelected,
-                    accentColor = accentColor,
+                    accentColor = AccentMCU,
                     onClick = { onFilterSelected(filter) }
                 )
             }

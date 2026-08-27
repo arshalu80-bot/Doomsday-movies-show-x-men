@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.sp
 import com.example.data.model.MediaItem
 import com.example.ui.theme.AccentMCU
 import com.example.ui.theme.AccentSeries
+import com.example.ui.theme.AccentSpidey
 import com.example.ui.theme.AccentWatched
 import com.example.ui.theme.AccentXMen
 import com.example.ui.theme.CardBg
@@ -52,6 +53,7 @@ fun MediaItemCard(
     val categoryColor = when (item.category) {
         "mcu" -> AccentMCU
         "xmen" -> AccentXMen
+        "spidey" -> AccentSpidey
         "series" -> AccentSeries
         else -> AccentWatched
     }
@@ -135,8 +137,13 @@ fun MediaItemCard(
                     modifier = Modifier.padding(top = 4.dp)
                 ) {
                     // Category Tag
+                    val categoryTagText = when (item.category) {
+                        "spidey" -> "SPIDER-MAN"
+                        "xmen" -> "X-MEN"
+                        else -> item.category.uppercase()
+                    }
                     MetaBadge(
-                        text = item.category.uppercase(),
+                        text = categoryTagText,
                         color = categoryColor
                     )
 

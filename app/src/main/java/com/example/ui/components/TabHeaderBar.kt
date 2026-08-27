@@ -21,7 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ui.theme.AccentMCU
-import com.example.ui.theme.AccentSeries
+import com.example.ui.theme.AccentSpidey
 import com.example.ui.theme.AccentWatched
 import com.example.ui.theme.AccentXMen
 import com.example.ui.theme.TextPrimary
@@ -35,10 +35,10 @@ fun TabHeaderBar(
     modifier: Modifier = Modifier
 ) {
     val (title, accentColor, badgeText) = when (currentTab) {
-        DoomsTab.MCU -> Triple("MCU Timeline (68)", AccentMCU, "$itemCount Left")
-        DoomsTab.WATCHED -> Triple("Watched / Completed", AccentWatched, "$itemCount Done")
-        DoomsTab.XMEN -> Triple("X-Men Universe (14)", AccentXMen, "$itemCount Left")
-        DoomsTab.SERIES -> Triple("Marvel Series & Shows (28)", AccentSeries, "$itemCount Left")
+        DoomsTab.MCU -> Triple("MCU MOVIES & SERIES (68)", AccentMCU, "$itemCount Left")
+        DoomsTab.WATCHED -> Triple("MOVIES WATCH HISTORY", AccentWatched, "$itemCount Done")
+        DoomsTab.XMEN -> Triple("X-MEN MOVIES (14)", AccentXMen, "$itemCount Left")
+        DoomsTab.SPIDEY -> Triple("NON MCU SPIDER-MAN MOVIES (5)", AccentSpidey, "$itemCount Left")
     }
 
     Column(

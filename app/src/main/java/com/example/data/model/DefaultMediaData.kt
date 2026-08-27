@@ -84,6 +84,15 @@ object DefaultMediaData {
         "Deadpool & Wolverine (2024)"
     )
 
+    // 5 NON MCU SPIDER-MAN MOVIES
+    val rawSpidey = listOf(
+        "Spider-Man (2002)",
+        "Spider-Man 2 (2004)",
+        "Spider-Man 3 (2007)",
+        "The Amazing Spider-Man (2012)",
+        "The Amazing Spider-Man 2 (2014)"
+    )
+
     fun extractYear(title: String): Int {
         val yearRegex = "(?:\\(|\\b)(19\\d{2}|20\\d{2})(?:\\)|\\b)".toRegex()
         val match = yearRegex.findAll(title).lastOrNull()
@@ -122,11 +131,25 @@ object DefaultMediaData {
                     id = "xmen_$index",
                     title = title,
                     category = "xmen",
-                    originalIndex = 68 + index + 1,
+                    originalIndex = index + 1,
                     watched = false,
                     releaseYear = extractYear(title),
                     typeTag = extractType(title, isShow),
                     isShow = isShow
+                )
+            )
+        }
+        rawSpidey.forEachIndexed { index, title ->
+            list.add(
+                MediaItem(
+                    id = "spidey_$index",
+                    title = title,
+                    category = "spidey",
+                    originalIndex = index + 1,
+                    watched = false,
+                    releaseYear = extractYear(title),
+                    typeTag = "Movie",
+                    isShow = false
                 )
             )
         }

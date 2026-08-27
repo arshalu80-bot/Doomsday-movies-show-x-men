@@ -11,9 +11,20 @@ class MediaRepository(private val mediaDao: MediaDao) {
 
     suspend fun seedDatabaseIfEmpty() {
         val currentCount = mediaDao.getCount()
-        if (currentCount != 82) {
+        if (currentCount != 87) {
+            val existingWatchedIds = try {
+                mediaDao.getAllItemsSync().filter { it.watched }.map { it.id }.toSet()
+            } catch (e: Exception) {
+                emptySet()
+            }
             mediaDao.deleteAll()
-            val initialItems = DefaultMediaData.generateInitialItems()
+            val initialItems = DefaultMediaData.generateInitialItems().map { item ->
+                if (existingWatchedIds.contains(item.id)) {
+                    item.copy(watched = true, watchedTimestamp = System.currentTimeMillis())
+                } else {
+                    item
+                }
+            }
             mediaDao.insertAll(initialItems)
         }
     }
