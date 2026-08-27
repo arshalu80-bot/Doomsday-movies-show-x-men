@@ -7,10 +7,11 @@ import androidx.room.PrimaryKey
 data class MediaItem(
     @PrimaryKey val id: String,
     val title: String,
-    val category: String, // "mcu", "xmen", "series"
+    val category: String, // "mcu", "xmen"
     val originalIndex: Int,
     val watched: Boolean = false,
     val watchedTimestamp: Long = 0L,
     val releaseYear: Int = 2008,
-    val typeTag: String = "Movie" // "Movie", "TV Series", "Special", "Animated"
+    val typeTag: String = "Movie", // "Movie", "Series", "Special", "Animated"
+    val isShow: Boolean = false
 )

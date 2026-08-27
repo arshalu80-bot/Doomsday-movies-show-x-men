@@ -11,7 +11,7 @@ class MediaRepository(private val mediaDao: MediaDao) {
 
     suspend fun seedDatabaseIfEmpty() {
         val currentCount = mediaDao.getCount()
-        if (currentCount != 79) {
+        if (currentCount != 82) {
             mediaDao.deleteAll()
             val initialItems = DefaultMediaData.generateInitialItems()
             mediaDao.insertAll(initialItems)

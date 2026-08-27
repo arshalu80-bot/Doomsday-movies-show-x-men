@@ -184,11 +184,7 @@ class DoomsViewModel(application: Application) : AndroidViewModel(application) {
     ) { allItems, filters ->
         val mcuAll = allItems.filter { it.category == "mcu" }
         val xmenAll = allItems.filter { it.category == "xmen" }
-        val seriesAll = allItems.filter { 
-            it.typeTag.contains("Series", ignoreCase = true) || 
-            it.typeTag.contains("Special", ignoreCase = true) || 
-            it.typeTag.contains("Animated", ignoreCase = true) 
-        }
+        val seriesAll = allItems.filter { it.isShow }
 
         val mcuUnwatched = mcuAll.filter { !it.watched }
         val xmenUnwatched = xmenAll.filter { !it.watched }

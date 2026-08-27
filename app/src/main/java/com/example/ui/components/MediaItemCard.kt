@@ -140,11 +140,11 @@ fun MediaItemCard(
                         color = categoryColor
                     )
 
-                    // Type Tag (e.g. Movie, TV Series, Special)
-                    if (item.typeTag.isNotBlank()) {
+                    // SHOW tag
+                    if (item.isShow) {
                         MetaBadge(
-                            text = item.typeTag.uppercase(),
-                            color = TextMuted
+                            text = "SHOW",
+                            color = AccentSeries
                         )
                     }
 

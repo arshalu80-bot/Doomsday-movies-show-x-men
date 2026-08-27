@@ -35,10 +35,10 @@ fun TabHeaderBar(
     modifier: Modifier = Modifier
 ) {
     val (title, accentColor, badgeText) = when (currentTab) {
-        DoomsTab.MCU -> Triple("MCU Timeline (2008-2026)", AccentMCU, "$itemCount Left")
+        DoomsTab.MCU -> Triple("MCU Timeline (68)", AccentMCU, "$itemCount Left")
         DoomsTab.WATCHED -> Triple("Watched / Completed", AccentWatched, "$itemCount Done")
-        DoomsTab.XMEN -> Triple("X-Men Universe", AccentXMen, "$itemCount Left")
-        DoomsTab.SERIES -> Triple("Marvel Series & Shows", AccentSeries, "$itemCount Left")
+        DoomsTab.XMEN -> Triple("X-Men Universe (14)", AccentXMen, "$itemCount Left")
+        DoomsTab.SERIES -> Triple("Marvel Series & Shows (28)", AccentSeries, "$itemCount Left")
     }
 
     Column(

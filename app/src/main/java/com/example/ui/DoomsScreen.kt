@@ -125,8 +125,8 @@ fun DoomsScreen(
         if (uiState.currentTab != DoomsTab.WATCHED) {
             filtered = when (uiState.activeFilter) {
                 MediaFilter.ALL -> filtered
-                MediaFilter.MOVIES -> filtered.filter { it.typeTag.equals("Movie", ignoreCase = true) }
-                MediaFilter.SERIES -> filtered.filter { it.typeTag.equals("TV Series", ignoreCase = true) }
+                MediaFilter.MOVIES -> filtered.filter { !it.isShow && it.typeTag.equals("Movie", ignoreCase = true) }
+                MediaFilter.SERIES -> filtered.filter { it.isShow }
                 MediaFilter.SPECIALS -> filtered.filter { it.typeTag.equals("Special", ignoreCase = true) || it.typeTag.equals("Animated", ignoreCase = true) }
             }
         }

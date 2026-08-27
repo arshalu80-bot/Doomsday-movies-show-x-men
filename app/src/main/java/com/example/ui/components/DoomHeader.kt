@@ -3,7 +3,6 @@ package com.example.ui.components
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -11,7 +10,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -30,15 +28,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.R
 import com.example.ui.theme.AccentDoom
 import com.example.ui.theme.AccentDoomDark
 import com.example.ui.theme.AccentSeries
@@ -148,14 +143,16 @@ fun DoomMaskIcon(modifier: Modifier = Modifier) {
         modifier = modifier
             .shadow(16.dp, shape = CircleShape, spotColor = AccentDoom.copy(alpha = 0.6f))
             .clip(CircleShape)
-            .background(Color.Black),
+            .background(Color.Black)
+            .border(2.dp, AccentDoom, CircleShape),
         contentAlignment = Alignment.Center
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.avengers_doom_icon),
-            contentDescription = "DOOMS Metallic Icon",
-            contentScale = ContentScale.Fit,
-            modifier = Modifier.fillMaxSize()
+        Text(
+            text = "A",
+            color = AccentDoom,
+            fontSize = 26.sp,
+            fontWeight = FontWeight.Black,
+            fontFamily = FontFamily.SansSerif
         )
     }
 }
