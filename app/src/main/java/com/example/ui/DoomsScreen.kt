@@ -29,8 +29,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.RestartAlt
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.SystemUpdate
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -67,6 +69,7 @@ import com.example.ui.components.DoomsBottomNav
 import com.example.ui.components.MediaItemCard
 import com.example.ui.components.RandomPickDialog
 import com.example.ui.components.TabHeaderBar
+import com.example.ui.components.UpdateDialog
 import com.example.ui.theme.AccentDoom
 import com.example.ui.theme.AccentMCU
 import com.example.ui.theme.AccentSeries
@@ -89,6 +92,7 @@ fun DoomsScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val countdown by viewModel.countdown.collectAsStateWithLifecycle()
+    val updateState by viewModel.updateState.collectAsStateWithLifecycle()
 
     var showMenu by remember { mutableStateOf(false) }
     var showResetConfirm by remember { mutableStateOf(false) }
@@ -265,6 +269,36 @@ fun DoomsScreen(
                     onDismissRequest = { showMenu = false },
                     modifier = Modifier.background(CardBgElevated)
                 ) {
+                    DropdownMenuItem(
+                        text = { Text("Check for Updates", color = AccentDoom) },
+                        leadingIcon = {
+                            Icon(
+                                imageVector = Icons.Default.Refresh,
+                                contentDescription = null,
+                                tint = AccentDoom,
+                                modifier = Modifier.size(18.dp)
+                            )
+                        },
+                        onClick = {
+                            viewModel.checkForUpdates(manual = true)
+                            showMenu = false
+                        }
+                    )
+                    DropdownMenuItem(
+                        text = { Text("Test Update Dialog", color = AccentSeries) },
+                        leadingIcon = {
+                            Icon(
+                                imageVector = Icons.Default.SystemUpdate,
+                                contentDescription = null,
+                                tint = AccentSeries,
+                                modifier = Modifier.size(18.dp)
+                            )
+                        },
+                        onClick = {
+                            viewModel.triggerTestUpdate()
+                            showMenu = false
+                        }
+                    )
                     if (uiState.currentTab != DoomsTab.WATCHED) {
                         DropdownMenuItem(
                             text = { Text("Mark All in Tab as Watched", color = TextPrimary) },
@@ -292,6 +326,14 @@ fun DoomsScreen(
             }
         }
     }
+
+    // Auto-Update Dialog (Prompts on update detected, handles DownloadManager progress & installation)
+    UpdateDialog(
+        updateState = updateState,
+        onStartDownload = { info -> viewModel.startDownload(info) },
+        onInstall = { viewModel.triggerInstall() },
+        onDismiss = { viewModel.dismissUpdateDialog() }
+    )
 
     // Reset confirmation dialog
     if (showResetConfirm) {

@@ -1,11 +1,15 @@
 package com.example.ui.viewmodel
 
 import android.app.Application
+import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.data.local.DoomsDatabase
 import com.example.data.model.MediaItem
 import com.example.data.repository.MediaRepository
+import com.example.update.AppUpdateManager
+import com.example.update.UpdateInfo
+import com.example.update.UpdateState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -61,12 +65,18 @@ data class DoomsUiState(
 
 class DoomsViewModel(application: Application) : AndroidViewModel(application) {
     private val repository: MediaRepository
+    private val updateManager: AppUpdateManager = AppUpdateManager(application)
 
     private val _currentTab = MutableStateFlow(DoomsTab.MCU)
     private val _searchQuery = MutableStateFlow("")
     private val _activeFilter = MutableStateFlow(MediaFilter.ALL)
     private val _watchedSubFilter = MutableStateFlow("ALL")
     private val _randomPickedItem = MutableStateFlow<MediaItem?>(null)
+
+    private val _updateState = MutableStateFlow<UpdateState>(UpdateState.Idle)
+    val updateState: StateFlow<UpdateState> = _updateState
+
+    private var latestDownloadedUri: Uri? = null
 
     private val _countdown = MutableStateFlow(CountdownTime())
     val countdown: StateFlow<CountdownTime> = _countdown
@@ -80,6 +90,89 @@ class DoomsViewModel(application: Application) : AndroidViewModel(application) {
         }
 
         startCountdownTicker()
+
+        // Automatically check for updates on app launch
+        checkForUpdates(manual = false)
+    }
+
+    /**
+     * Checks remote endpoint for updates. If manual is true, shows feedback if already up to date.
+     */
+    fun checkForUpdates(manual: Boolean = false) {
+        viewModelScope.launch {
+            if (manual) {
+                _updateState.value = UpdateState.Checking
+            }
+            val result = updateManager.checkForUpdate()
+            result.onSuccess { updateInfo ->
+                if (updateInfo != null) {
+                    _updateState.value = UpdateState.UpdateAvailable(updateInfo)
+                } else if (manual) {
+                    _updateState.value = UpdateState.UpToDate()
+                } else {
+                    _updateState.value = UpdateState.Idle
+                }
+            }.onFailure { error ->
+                if (manual) {
+                    _updateState.value = UpdateState.Error("Unable to reach update server: ${error.localizedMessage ?: "Unknown error"}")
+                } else {
+                    _updateState.value = UpdateState.Idle
+                }
+            }
+        }
+    }
+
+    /**
+     * Triggers a test/preview update dialog so users can test the update workflow immediately.
+     */
+    fun triggerTestUpdate() {
+        val testUpdate = UpdateInfo(
+            versionCode = 2,
+            versionName = "1.1.0",
+            apkUrl = "https://github.com/arshali1854/dooms-releases/releases/download/v1.1.0/app-debug.apk",
+            releaseNotes = "• Complete 82 items MCU & X-Men timeline\n• Added in-app auto updates & download manager\n• Performance optimizations and bug fixes",
+            mandatory = false,
+            fileSizeMb = "22 MB"
+        )
+        _updateState.value = UpdateState.UpdateAvailable(testUpdate)
+    }
+
+    /**
+     * Starts downloading the APK in the background using DownloadManager.
+     */
+    fun startDownload(info: UpdateInfo) {
+        viewModelScope.launch {
+            updateManager.startDownload(info).collect { state ->
+                _updateState.value = state
+                if (state is UpdateState.ReadyToInstall) {
+                    latestDownloadedUri = state.apkUri
+                    // Trigger installation automatically or when user clicks
+                    triggerInstall()
+                }
+            }
+        }
+    }
+
+    /**
+     * Triggers the PackageInstaller Intent.
+     */
+    fun triggerInstall() {
+        val state = _updateState.value
+        val uri = when (state) {
+            is UpdateState.ReadyToInstall -> state.apkUri
+            else -> latestDownloadedUri
+        }
+
+        if (uri != null) {
+            val installed = updateManager.triggerInstall(uri)
+            if (!installed) {
+                // If unknown source permission was opened, leave ready state so user can tap install once returned
+            }
+        }
+    }
+
+    fun dismissUpdateDialog() {
+        _updateState.value = UpdateState.Idle
     }
 
     private fun startCountdownTicker() {
