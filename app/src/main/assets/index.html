@@ -436,7 +436,7 @@
       padding: 8px 2px;
       border-radius: 12px;
       font-family: 'Inter', sans-serif;
-      font-size: 0.60rem;
+      font-size: 0.56rem;
       font-weight: 600;
       cursor: pointer;
       display: flex;
@@ -502,7 +502,7 @@
       <div class="progress-bar-container">
         <div class="progress-bar-fill" id="progress-fill"></div>
       </div>
-      <div class="progress-text" id="progress-stats">0 of 87 (0%)</div>
+      <div class="progress-text" id="progress-stats">0 of 100 (0%)</div>
     </header>
 
     <div class="controls-row">
@@ -516,7 +516,7 @@
 
       <div class="dropdown-menu" id="dropdown-menu">
         <button class="menu-item green" onclick="toggleMenu()">
-          <span>ℹ️</span> This is version v.0.0.0.6
+          <span>ℹ️</span> This is version v.0.0.0.7
         </button>
         <button class="menu-item" onclick="markAllCurrentTab(true)">
           <span>✅</span> Mark All in Tab as Watched
@@ -567,10 +567,10 @@
       <div class="list-wrapper" id="bar3-list"></div>
     </section>
 
-    <!-- 4. NON MCU MOVIES -->
+    <!-- 4. NON MCU MOVIES & SHOWS -->
     <section class="tab-content" id="tab-spidey">
       <div class="bar-header">
-        <h2>NON MCU MOVIES (5)</h2>
+        <h2>NON MCU MOVIES & SHOWS (18)</h2>
         <span class="count-badge" id="spidey-count">0 Left</span>
       </div>
       <div class="list-wrapper" id="bar4-list"></div>
@@ -593,7 +593,7 @@
         <span class="badge-pill" id="badge-xmen">0</span>
       </button>
       <button class="nav-btn" data-tab="spidey" onclick="switchTab('spidey')">
-        <span>NON MCU MOVIES</span>
+        <span>NON MCU MOVIES & SHOWS</span>
         <span class="badge-pill" id="badge-spidey">0</span>
       </button>
     </nav>
@@ -641,9 +641,25 @@
       "Deadpool & Wolverine (2024)"
     ];
 
-    const rawSpidey = [
-      "Spider-Man (2002)", "Spider-Man 2 (2004)", "Spider-Man 3 (2007)",
-      "The Amazing Spider-Man (2012)", "The Amazing Spider-Man 2 (2014)"
+    const rawNonMCU = [
+      "Spider-Man (2002)",
+      "Spider-Man 2 (2004)",
+      "Spider-Man 3 (2007)",
+      "The Amazing Spider-Man (2012)",
+      "The Amazing Spider-Man 2 (2014)",
+      "Daredevil (Season 1) (2015)",
+      "Jessica Jones (Season 1) (2015)",
+      "Daredevil (Season 2) (2016)",
+      "Luke Cage (Season 1) (2016)",
+      "Iron Fist (Season 1) (2017)",
+      "The Defenders (Season 1) (2017)",
+      "The Punisher (Season 1) (2017)",
+      "Jessica Jones (Season 2) (2018)",
+      "Luke Cage (Season 2) (2018)",
+      "Iron Fist (Season 2) (2018)",
+      "Daredevil (Season 3) (2018)",
+      "The Punisher (Season 2) (2019)",
+      "Jessica Jones (Season 3) (2019)"
     ];
 
     let items = [];
@@ -663,17 +679,17 @@
       rawXMen.forEach((title, index) => {
         items.push({ id: `xmen_${index}`, title, category: 'xmen', originalIndex: index + 1, watched: false });
       });
-      rawSpidey.forEach((title, index) => {
-        items.push({ id: `spidey_${index}`, title, category: 'spidey', originalIndex: index + 1, watched: false });
+      rawNonMCU.forEach((title, index) => {
+        items.push({ id: `nonmcu_${index}`, title, category: 'spidey', originalIndex: index + 1, watched: false });
       });
 
-      const saved = safeGet('dooms_app_v87_v0006') || safeGet('dooms_app_v87_star_dooms') || safeGet('dooms_app_v87_star_github') || safeGet('dooms_app_v87_named_final') || safeGet('dooms_app_v87_named_v3') || safeGet('dooms_app_v87_named_v2') || safeGet('dooms_app_v87_final');
+      const saved = safeGet('dooms_app_v100_v0007') || safeGet('dooms_app_v100_nonmcu_shows') || safeGet('dooms_app_v87_v0007') || safeGet('dooms_app_v87_v0006') || safeGet('dooms_app_v87_star_dooms') || safeGet('dooms_app_v87_star_github') || safeGet('dooms_app_v87_named_final') || safeGet('dooms_app_v87_named_v3') || safeGet('dooms_app_v87_named_v2') || safeGet('dooms_app_v87_final');
       if (saved) {
         try {
           const parsed = JSON.parse(saved);
           if (Array.isArray(parsed)) {
             parsed.forEach(savedItem => {
-              const match = items.find(i => i.id === savedItem.id);
+              const match = items.find(i => i.id === savedItem.id || i.title === savedItem.title);
               if (match) match.watched = Boolean(savedItem.watched);
             });
           }
@@ -694,20 +710,12 @@
       }
     });
 
-    function forceSyncRefresh() {
-      toggleMenu();
-      if ('caches' in window) {
-        caches.keys().then(names => names.forEach(name => caches.delete(name)));
-      }
-      location.reload();
-    }
-
     function openMagicInsight() {
       const unwatched = items.filter(i => !i.watched);
       if (unwatched.length > 0) {
         alert(`✨ Next Up in Timeline:\n\n${unwatched[0].title}`);
       } else {
-        alert("🎉 Congratulations! You have completed all 87 movies and shows!");
+        alert("🎉 Congratulations! You have completed all 100 movies and shows!");
       }
     }
 
@@ -720,7 +728,7 @@
           i.watched = status;
         }
       });
-      safeSet('dooms_app_v87_v0006', JSON.stringify(items));
+      safeSet('dooms_app_v100_v0007', JSON.stringify(items));
       render();
     }
 
@@ -728,7 +736,7 @@
       toggleMenu();
       if (confirm("Are you sure you want to reset all watch history?")) {
         items.forEach(i => i.watched = false);
-        safeSet('dooms_app_v87_v0006', JSON.stringify(items));
+        safeSet('dooms_app_v100_v0007', JSON.stringify(items));
         render();
       }
     }
@@ -742,7 +750,7 @@
       const item = items.find(i => i.id === id);
       if (item) {
         item.watched = !item.watched;
-        safeSet('dooms_app_v87_v0006', JSON.stringify(items));
+        safeSet('dooms_app_v100_v0007', JSON.stringify(items));
         render();
       }
     }
