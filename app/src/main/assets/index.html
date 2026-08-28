@@ -141,7 +141,6 @@
       text-align: right;
     }
 
-    /* SEARCH & ACTION BUTTONS HEADER */
     .controls-row {
       display: flex;
       align-items: center;
@@ -195,7 +194,6 @@
       color: var(--accent-doom);
     }
 
-    /* THREE-DOT MENU DROPDOWN */
     .dropdown-menu {
       display: none;
       position: absolute;
@@ -239,78 +237,6 @@
     .menu-item.cyan { color: var(--accent-spidey); }
     .menu-item.red { color: #ff4d4d; }
 
-    /* POPUP MODALS */
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(5px);
-      z-index: 9999999;
-      place-content: center;
-      padding: 16px;
-    }
-
-    .modal-overlay.active {
-      display: grid;
-    }
-
-    .modal-card {
-      background: #0f1624;
-      border: 1px solid rgba(0, 255, 136, 0.4);
-      border-radius: 18px;
-      padding: 20px;
-      max-width: 380px;
-      width: 100%;
-      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.95);
-    }
-
-    .modal-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 12px;
-    }
-
-    .modal-header h3 {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 1rem;
-      color: #fff;
-    }
-
-    .modal-body {
-      font-size: 0.82rem;
-      color: var(--text-muted);
-      line-height: 1.4;
-      margin-bottom: 16px;
-    }
-
-    .modal-footer {
-      display: flex;
-      justify-content: flex-end;
-      gap: 10px;
-    }
-
-    .modal-btn {
-      padding: 8px 16px;
-      border-radius: 8px;
-      font-size: 0.78rem;
-      font-weight: 700;
-      cursor: pointer;
-      border: none;
-    }
-
-    .modal-btn.primary {
-      background: var(--accent-doom);
-      color: #000;
-    }
-
-    .modal-btn.secondary {
-      background: rgba(255, 255, 255, 0.1);
-      color: #fff;
-    }
-
-    /* TAB CONTENT */
     .tab-content {
       display: none;
       background: var(--card-bg);
@@ -339,6 +265,7 @@
       font-family: 'Orbitron', sans-serif;
       font-size: 0.82rem;
       font-weight: 700;
+      letter-spacing: 1px;
     }
 
     .count-badge {
@@ -501,13 +428,14 @@
       padding: 8px 2px;
       border-radius: 12px;
       font-family: 'Inter', sans-serif;
-      font-size: 0.68rem;
+      font-size: 0.64rem;
       font-weight: 600;
       cursor: pointer;
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 3px;
+      text-align: center;
     }
 
     .nav-btn .badge-pill {
@@ -569,26 +497,18 @@
       <div class="progress-text" id="progress-stats">0 of 87 (0%)</div>
     </header>
 
-    <!-- SEARCH BAR + GREEN SPARKLE BUTTON + THREE DOT MENU BUTTON -->
     <div class="controls-row">
       <div class="search-box">
         <span class="search-icon">🔍</span>
         <input type="text" id="search-input" placeholder="Search movies, series..." oninput="handleSearch(this.value)">
       </div>
 
-      <!-- GREEN MAGIC SPARKLE BUTTON -->
       <button class="sparkle-btn" title="Quick Insights" onclick="openMagicInsight()">✨</button>
-
-      <!-- THREE DOTS BUTTON -->
       <button class="dots-btn" onclick="toggleMenu()">⋮</button>
 
-      <!-- THREE DOTS DROPDOWN MENU -->
       <div class="dropdown-menu" id="dropdown-menu">
-        <button class="menu-item green" onclick="checkForUpdatesAction()">
-          <span>🔄</span> Check for Updates
-        </button>
-        <button class="menu-item cyan" onclick="showUpdateModal()">
-          <span>📥</span> Test Update Dialog
+        <button class="menu-item green" onclick="forceSyncRefresh()">
+          <span>🔄</span> Force Refresh Sync
         </button>
         <button class="menu-item" onclick="markAllCurrentTab(true)">
           <span>✅</span> Mark All in Tab as Watched
@@ -602,19 +522,19 @@
       </div>
     </div>
 
-    <!-- BAR 1: MCU MOVIES & SERIES -->
+    <!-- 1. MCU MOVIES -->
     <section class="tab-content active" id="tab-mcu">
       <div class="bar-header">
-        <h2>MCU MOVIES & SERIES (68)</h2>
+        <h2>MCU MOVIES (68)</h2>
         <span class="count-badge" id="mcu-count">0 Left</span>
       </div>
       <div class="list-wrapper" id="bar1-list"></div>
     </section>
 
-    <!-- BAR 2: MOVIES WATCH HISTORY -->
+    <!-- 2. WATCHED -->
     <section class="tab-content" id="tab-watched">
       <div class="bar-header">
-        <h2>MOVIES WATCH HISTORY</h2>
+        <h2>WATCHED</h2>
         <span class="count-badge" id="watched-count">0 Done</span>
       </div>
       <div class="list-wrapper" id="bar2-list">
@@ -622,7 +542,7 @@
       </div>
     </section>
 
-    <!-- BAR 3: X-MEN MOVIES -->
+    <!-- 3. X-MEN MOVIES -->
     <section class="tab-content" id="tab-xmen">
       <div class="bar-header">
         <h2>X-MEN MOVIES (14)</h2>
@@ -631,55 +551,33 @@
       <div class="list-wrapper" id="bar3-list"></div>
     </section>
 
-    <!-- BAR 4: NON MCU SPIDER-MAN MOVIES -->
+    <!-- 4. SPIDER-MAN MOVIES -->
     <section class="tab-content" id="tab-spidey">
       <div class="bar-header">
-        <h2>NON MCU SPIDER-MAN MOVIES (5)</h2>
+        <h2>SPIDER-MAN MOVIES (5)</h2>
         <span class="count-badge" id="spidey-count">0 Left</span>
       </div>
       <div class="list-wrapper" id="bar4-list"></div>
     </section>
   </div>
 
-  <!-- NATIVE-LOOKING UPDATE MODAL DIALOG -->
-  <div class="modal-overlay" id="update-modal">
-    <div class="modal-card">
-      <div class="modal-header">
-        <span style="font-size: 1.4rem;">🟢</span>
-        <div>
-          <h3>New Update Available</h3>
-          <span style="font-size: 0.72rem; color: var(--accent-doom); font-weight: bold;">v2.2.0 (Latest Release)</span>
-        </div>
-      </div>
-      <div class="modal-body">
-        • Added Non-MCU Spider-Man Timeline (5 Movies)<br>
-        • Restored 3-Dot Options & Magic Sparkle Action<br>
-        • Fixed Bar sync & 87-item watch progress
-      </div>
-      <div class="modal-footer">
-        <button class="modal-btn secondary" onclick="closeUpdateModal()">Later</button>
-        <button class="modal-btn primary" onclick="applyDirectSync()">Update Now</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- FLOATING NAVIGATION BAR -->
+  <!-- BOTTOM NAVIGATION BAR -->
   <div class="bottom-guard">
     <nav class="bottom-nav">
       <button class="nav-btn active" data-tab="mcu" onclick="switchTab('mcu')">
-        <span>Bar 1: MCU</span>
+        <span>MCU MOVIES</span>
         <span class="badge-pill" id="badge-mcu">0</span>
       </button>
       <button class="nav-btn" data-tab="watched" onclick="switchTab('watched')">
-        <span>Bar 2: Done</span>
+        <span>WATCHED</span>
         <span class="badge-pill" id="badge-watched">0</span>
       </button>
       <button class="nav-btn" data-tab="xmen" onclick="switchTab('xmen')">
-        <span>Bar 3: X-Men</span>
+        <span>X-MEN MOVIES</span>
         <span class="badge-pill" id="badge-xmen">0</span>
       </button>
       <button class="nav-btn" data-tab="spidey" onclick="switchTab('spidey')">
-        <span>Bar 4: Spidey</span>
+        <span>SPIDER-MAN</span>
         <span class="badge-pill" id="badge-spidey">0</span>
       </button>
     </nav>
@@ -753,7 +651,7 @@
         items.push({ id: `spidey_${index}`, title, category: 'spidey', originalIndex: index + 1, watched: false });
       });
 
-      const saved = safeGet('dooms_app_v87_final');
+      const saved = safeGet('dooms_app_v87_named_v3') || safeGet('dooms_app_v87_named_v2') || safeGet('dooms_app_v87_final');
       if (saved) {
         try {
           const parsed = JSON.parse(saved);
@@ -780,22 +678,8 @@
       }
     });
 
-    function showUpdateModal() {
+    function forceSyncRefresh() {
       toggleMenu();
-      document.getElementById('update-modal').classList.add('active');
-    }
-
-    function closeUpdateModal() {
-      document.getElementById('update-modal').classList.remove('active');
-    }
-
-    function checkForUpdatesAction() {
-      toggleMenu();
-      showUpdateModal();
-    }
-
-    function applyDirectSync() {
-      closeUpdateModal();
       if ('caches' in window) {
         caches.keys().then(names => names.forEach(name => caches.delete(name)));
       }
@@ -820,7 +704,7 @@
           i.watched = status;
         }
       });
-      safeSet('dooms_app_v87_final', JSON.stringify(items));
+      safeSet('dooms_app_v87_named_v3', JSON.stringify(items));
       render();
     }
 
@@ -828,7 +712,7 @@
       toggleMenu();
       if (confirm("Are you sure you want to reset all watch history?")) {
         items.forEach(i => i.watched = false);
-        safeSet('dooms_app_v87_final', JSON.stringify(items));
+        safeSet('dooms_app_v87_named_v3', JSON.stringify(items));
         render();
       }
     }
@@ -842,7 +726,7 @@
       const item = items.find(i => i.id === id);
       if (item) {
         item.watched = !item.watched;
-        safeSet('dooms_app_v87_final', JSON.stringify(items));
+        safeSet('dooms_app_v87_named_v3', JSON.stringify(items));
         render();
       }
     }

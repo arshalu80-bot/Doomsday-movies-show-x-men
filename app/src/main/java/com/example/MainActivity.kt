@@ -100,9 +100,18 @@ fun DoomsLiveWebView(
                     displayZoomControls = false
                     builtInZoomControls = false
                     setSupportZoom(false)
+                    mediaPlaybackRequiresUserGesture = false
                 }
 
                 webViewClient = object : WebViewClient() {
+                    override fun shouldOverrideUrlLoading(
+                        view: WebView?,
+                        request: WebResourceRequest?
+                    ): Boolean {
+                        // Prevent opening external browsers - handle inside WebView
+                        return false
+                    }
+
                     override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
                         super.onPageStarted(view, url, favicon)
                     }
@@ -113,6 +122,10 @@ fun DoomsLiveWebView(
                         error: WebResourceError?
                     ) {
                         super.onReceivedError(view, request, error)
+                        // Fallback gracefully to offline asset if live URL is unreachable
+                        if (request?.isForMainFrame == true) {
+                            view?.loadUrl("file:///android_asset/index.html")
+                        }
                     }
                 }
 
