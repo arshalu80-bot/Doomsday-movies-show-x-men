@@ -1,8 +1,10 @@
 package com.example
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -86,12 +88,10 @@ fun DoomsLiveWebView(
                     ViewGroup.LayoutParams.MATCH_PARENT
                 )
                 setBackgroundColor(Color.parseColor("#05070A"))
-                setLayerType(View.LAYER_TYPE_HARDWARE, null)
 
                 settings.apply {
                     javaScriptEnabled = true
                     domStorageEnabled = true
-                    databaseEnabled = true
                     allowFileAccess = true
                     allowContentAccess = true
                     useWideViewPort = true
@@ -108,7 +108,16 @@ fun DoomsLiveWebView(
                         view: WebView?,
                         request: WebResourceRequest?
                     ): Boolean {
-                        // Prevent opening external browsers - handle inside WebView
+                        val url = request?.url?.toString() ?: return false
+                        if (url.startsWith("http://") || url.startsWith("https://")) {
+                            return try {
+                                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                                view?.context?.startActivity(intent)
+                                true
+                            } catch (e: Exception) {
+                                false
+                            }
+                        }
                         return false
                     }
 

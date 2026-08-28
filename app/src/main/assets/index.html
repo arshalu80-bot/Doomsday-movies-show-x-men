@@ -199,7 +199,7 @@
       position: absolute;
       top: 50px;
       right: 0;
-      width: 225px;
+      width: 235px;
       background: #0d121d;
       border: 1px solid rgba(255, 255, 255, 0.15);
       border-radius: 14px;
@@ -227,6 +227,7 @@
       display: flex;
       align-items: center;
       gap: 10px;
+      text-decoration: none;
     }
 
     .menu-item:hover {
@@ -235,7 +236,14 @@
 
     .menu-item.green { color: var(--accent-doom); }
     .menu-item.cyan { color: var(--accent-spidey); }
+    .menu-item.github-link { color: #f3f4f6; }
     .menu-item.red { color: #ff4d4d; }
+
+    .menu-divider {
+      height: 1px;
+      background: rgba(255, 255, 255, 0.1);
+      margin: 4px 0;
+    }
 
     .tab-content {
       display: none;
@@ -428,7 +436,7 @@
       padding: 8px 2px;
       border-radius: 12px;
       font-family: 'Inter', sans-serif;
-      font-size: 0.64rem;
+      font-size: 0.60rem;
       font-weight: 600;
       cursor: pointer;
       display: flex;
@@ -516,16 +524,24 @@
         <button class="menu-item" onclick="markAllCurrentTab(false)">
           <span>◻️</span> Mark All in Tab as Unwatched
         </button>
+        <div class="menu-divider"></div>
+        <a class="menu-item github-link" href="https://github.com/arshalu80-bot/Doomsday-movies-show-x-men" target="_blank" rel="noopener noreferrer" onclick="toggleMenu()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+          </svg>
+          <span>Star Dooms on GitHub</span>
+        </a>
+        <div class="menu-divider"></div>
         <button class="menu-item red" onclick="resetAllData()">
           <span>🗑️</span> Reset All Watch History
         </button>
       </div>
     </div>
 
-    <!-- 1. MCU MOVIES -->
+    <!-- 1. MCU MOVIES & SHOWS -->
     <section class="tab-content active" id="tab-mcu">
       <div class="bar-header">
-        <h2>MCU MOVIES (68)</h2>
+        <h2>MCU MOVIES & SHOWS (68)</h2>
         <span class="count-badge" id="mcu-count">0 Left</span>
       </div>
       <div class="list-wrapper" id="bar1-list"></div>
@@ -551,10 +567,10 @@
       <div class="list-wrapper" id="bar3-list"></div>
     </section>
 
-    <!-- 4. SPIDER-MAN MOVIES -->
+    <!-- 4. NON MCU MOVIES -->
     <section class="tab-content" id="tab-spidey">
       <div class="bar-header">
-        <h2>SPIDER-MAN MOVIES (5)</h2>
+        <h2>NON MCU MOVIES (5)</h2>
         <span class="count-badge" id="spidey-count">0 Left</span>
       </div>
       <div class="list-wrapper" id="bar4-list"></div>
@@ -565,7 +581,7 @@
   <div class="bottom-guard">
     <nav class="bottom-nav">
       <button class="nav-btn active" data-tab="mcu" onclick="switchTab('mcu')">
-        <span>MCU MOVIES</span>
+        <span>MCU MOVIES & SHOWS</span>
         <span class="badge-pill" id="badge-mcu">0</span>
       </button>
       <button class="nav-btn" data-tab="watched" onclick="switchTab('watched')">
@@ -577,7 +593,7 @@
         <span class="badge-pill" id="badge-xmen">0</span>
       </button>
       <button class="nav-btn" data-tab="spidey" onclick="switchTab('spidey')">
-        <span>SPIDER-MAN</span>
+        <span>NON MCU MOVIES</span>
         <span class="badge-pill" id="badge-spidey">0</span>
       </button>
     </nav>
@@ -651,7 +667,7 @@
         items.push({ id: `spidey_${index}`, title, category: 'spidey', originalIndex: index + 1, watched: false });
       });
 
-      const saved = safeGet('dooms_app_v87_named_v3') || safeGet('dooms_app_v87_named_v2') || safeGet('dooms_app_v87_final');
+      const saved = safeGet('dooms_app_v87_star_dooms') || safeGet('dooms_app_v87_star_github') || safeGet('dooms_app_v87_named_final') || safeGet('dooms_app_v87_named_v3') || safeGet('dooms_app_v87_named_v2') || safeGet('dooms_app_v87_final');
       if (saved) {
         try {
           const parsed = JSON.parse(saved);
@@ -704,7 +720,7 @@
           i.watched = status;
         }
       });
-      safeSet('dooms_app_v87_named_v3', JSON.stringify(items));
+      safeSet('dooms_app_v87_star_dooms', JSON.stringify(items));
       render();
     }
 
@@ -712,7 +728,7 @@
       toggleMenu();
       if (confirm("Are you sure you want to reset all watch history?")) {
         items.forEach(i => i.watched = false);
-        safeSet('dooms_app_v87_named_v3', JSON.stringify(items));
+        safeSet('dooms_app_v87_star_dooms', JSON.stringify(items));
         render();
       }
     }
@@ -726,7 +742,7 @@
       const item = items.find(i => i.id === id);
       if (item) {
         item.watched = !item.watched;
-        safeSet('dooms_app_v87_named_v3', JSON.stringify(items));
+        safeSet('dooms_app_v87_star_dooms', JSON.stringify(items));
         render();
       }
     }
@@ -801,7 +817,7 @@
         const itemEl = document.createElement('div');
         itemEl.className = 'item-card';
         itemEl.onclick = (e) => {
-          if (e.target.tagName !== 'INPUT') toggleWatch(item.id);
+          if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'A' && !e.target.closest('a')) toggleWatch(item.id);
         };
 
         const checkbox = document.createElement('input');
@@ -823,7 +839,7 @@
 
         const metaDiv = document.createElement('div');
         metaDiv.className = 'item-meta';
-        const tagLabel = item.category === 'mcu' ? 'MCU' : (item.category === 'xmen' ? 'X-MEN' : 'SPIDER-MAN');
+        const tagLabel = item.category === 'mcu' ? 'MCU' : (item.category === 'xmen' ? 'X-MEN' : 'NON-MCU');
         metaDiv.innerHTML = `<span class="meta-tag">${tagLabel}</span>`;
 
         infoDiv.appendChild(titleSpan);
