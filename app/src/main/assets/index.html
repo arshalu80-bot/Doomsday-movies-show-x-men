@@ -515,8 +515,8 @@
       <button class="dots-btn" onclick="toggleMenu()">⋮</button>
 
       <div class="dropdown-menu" id="dropdown-menu">
-        <button class="menu-item green" onclick="forceSyncRefresh()">
-          <span>🔄</span> Force Refresh Sync
+        <button class="menu-item green" onclick="toggleMenu()">
+          <span>ℹ️</span> This is version v.0.0.0.6
         </button>
         <button class="menu-item" onclick="markAllCurrentTab(true)">
           <span>✅</span> Mark All in Tab as Watched
@@ -667,7 +667,7 @@
         items.push({ id: `spidey_${index}`, title, category: 'spidey', originalIndex: index + 1, watched: false });
       });
 
-      const saved = safeGet('dooms_app_v87_star_dooms') || safeGet('dooms_app_v87_star_github') || safeGet('dooms_app_v87_named_final') || safeGet('dooms_app_v87_named_v3') || safeGet('dooms_app_v87_named_v2') || safeGet('dooms_app_v87_final');
+      const saved = safeGet('dooms_app_v87_v0006') || safeGet('dooms_app_v87_star_dooms') || safeGet('dooms_app_v87_star_github') || safeGet('dooms_app_v87_named_final') || safeGet('dooms_app_v87_named_v3') || safeGet('dooms_app_v87_named_v2') || safeGet('dooms_app_v87_final');
       if (saved) {
         try {
           const parsed = JSON.parse(saved);
@@ -720,7 +720,7 @@
           i.watched = status;
         }
       });
-      safeSet('dooms_app_v87_star_dooms', JSON.stringify(items));
+      safeSet('dooms_app_v87_v0006', JSON.stringify(items));
       render();
     }
 
@@ -728,7 +728,7 @@
       toggleMenu();
       if (confirm("Are you sure you want to reset all watch history?")) {
         items.forEach(i => i.watched = false);
-        safeSet('dooms_app_v87_star_dooms', JSON.stringify(items));
+        safeSet('dooms_app_v87_v0006', JSON.stringify(items));
         render();
       }
     }
@@ -742,7 +742,7 @@
       const item = items.find(i => i.id === id);
       if (item) {
         item.watched = !item.watched;
-        safeSet('dooms_app_v87_star_dooms', JSON.stringify(items));
+        safeSet('dooms_app_v87_v0006', JSON.stringify(items));
         render();
       }
     }
